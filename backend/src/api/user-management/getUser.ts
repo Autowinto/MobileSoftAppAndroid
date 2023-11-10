@@ -57,7 +57,7 @@ export function initGetUser(app: Application, openApi: OpenApi) {
                                             example: ['Platinum', 'Gold', 'Silver', 'Bronze'],
                                         }
                                     },
-                
+
                                 }
                             }
                         }

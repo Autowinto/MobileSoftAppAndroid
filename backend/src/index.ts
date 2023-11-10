@@ -18,5 +18,6 @@ initOpenApi(app, openApiInstance);
 
 // Testing
 app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`, `http://${process.env.HOST}:${process.env.PORT}`);
+    console.log(`Server running on port ${process.env.PORT}`);
+    console.log('To see Api documentation go to', `http://${process.env.HOST}:${process.env.PORT}/docs`)
 });
