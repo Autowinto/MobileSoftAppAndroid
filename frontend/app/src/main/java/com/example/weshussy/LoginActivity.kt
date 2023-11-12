@@ -1,5 +1,6 @@
 package com.example.weshussy
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +27,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginContent()
+                    LoginView()
                 }
             }
         }
@@ -35,7 +37,8 @@ class LoginActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginContent() {
+fun LoginView() {
+    val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -78,13 +81,13 @@ fun LoginContent() {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Login Button
-        Button(onClick = { /* TODO: Handle login */ }) {
+        Button(onClick = { Intent(context, HomeActivity::class.java).also{context.startActivity(it)}  }) {
             Text(text = "Login")
         }
         Spacer(modifier = Modifier.height(8.dp))
 
         // Register Button
-        Button(onClick = { /* TODO: Handle register */ }) {
+        Button(onClick = { Intent(context, RegisterActivity::class.java).also { context.startActivity(it) } }) {
             Text(text = "Register")
         }
     }

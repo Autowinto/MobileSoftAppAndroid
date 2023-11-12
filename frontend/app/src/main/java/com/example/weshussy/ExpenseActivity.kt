@@ -22,14 +22,17 @@ class ExpenseActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ExpenseText()
+                    ExpenseView()
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun ExpenseText() {
-    Text(text = "EXPENSE")
+fun ExpenseView() {
+    BaseActivity(slotContent = {
+        Text(text = "Add Expense")
+    })
 }
