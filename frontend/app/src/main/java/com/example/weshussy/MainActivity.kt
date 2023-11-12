@@ -40,13 +40,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
-<<<<<<< HEAD
     Button( onClick = {
         context.startActivity(Intent(context, RegisterActivity::class.java))
-=======
-    Button(onClick = {
-        context.startActivity(Intent(context, HomeActivity::class.java))
->>>>>>> eac40d9e05a0d98853ecb9376e9f2946ea77a366
 
     }) {
         Text(text = "Click me now!!!!")
