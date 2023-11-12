@@ -29,7 +29,7 @@ class HistoryActivity : ComponentActivity() {
                 }
             }
         }
-    }3
+    }
 }
 
 @Preview(showBackground = true)

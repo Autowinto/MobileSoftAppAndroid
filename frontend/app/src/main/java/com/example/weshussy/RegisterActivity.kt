@@ -47,6 +47,7 @@ fun RegisterContent() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        BackButtonNav()
         Image(
         painter = painterResource(id = R.drawable.logo), // Replace 'logo' with the actual resource name of your logo
         contentDescription = "Logo",
