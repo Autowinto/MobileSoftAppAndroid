@@ -2,17 +2,11 @@ import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 
 export async function createUser(req: Request, res: Response) {
-    // const { id } = req.query;
-    // const user = await db.user.findOne({ where: { id } });
-    // res.json(user);
 
-    // I just want to see if this works
-    res.send("Successfully created")
 }
 
 export function initCreateUser(app: Application, openApi: OpenApi) {
     app.post('/create_user', createUser)
-
 
     const commonProperties = {
         name: Types.String({

@@ -2,9 +2,8 @@ import express from "express";
 import dotenv from 'dotenv';
 import { getUser, initGetUser } from "./api/user-management/getUser";
 import * as managementRouter from './api/user-management/router';
-import { initCreateUser } from "./api/user-management/createUser";
+import { createUser, initCreateUser } from "./api/user-management/createUser";
 import { initOpenApi, openApiInstance } from "./openapi";
-import * as db from "./db/dbService";
 
 const app = express();
 dotenv.config();
@@ -17,8 +16,6 @@ initCreateUser(app, openApiInstance);
 initGetUser(app, openApiInstance);
 initOpenApi(app, openApiInstance);
 
-db.run();
-db.get();
 
 // Testing
 app.listen(process.env.PORT, () => {
