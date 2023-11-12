@@ -1,8 +1,18 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
+import User from '../../../models/user';
 
 export async function createUser(req: Request, res: Response) {
-    
+    const u = req.body;
+    User.create({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        password: u.password,
+        created_at: u.created_at,
+        updated_at: u.updated_at
+    })
+    res.send("User added")
 }
 
 export function initCreateUser(app: Application, openApi: OpenApi) {

@@ -8,11 +8,13 @@ export interface User {
     created_at: string;
     updated_at: string;
 }
+
 const sequelize = new Sequelize(config.mysql.database, config.mysql.user, config.mysql.password, {
     host: config.mysql.host,
-    port: parseInt(config.server.port.toString()),
+    port: 3306,
     dialect: "mysql",
 });
+
 const User = sequelize.define(
     "user",{
         id: {
@@ -44,4 +46,4 @@ const User = sequelize.define(
 (async () => {
     await sequelize.sync({ force: true });
   })();
-module.exports = User;
+export default User;
