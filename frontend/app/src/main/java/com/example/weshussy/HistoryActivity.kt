@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -37,8 +39,9 @@ class HistoryActivity : ComponentActivity() {
 fun HistoryView() {
     Column {
         BackButtonNav()
-        HistoryText()
-
+        Button(onClick = { Text(text = "Expense History")}) {
+            
+        }
     }
 }
 
