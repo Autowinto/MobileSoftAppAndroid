@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeShussy"
         tools:targetApi="31">
+        <activity android:name=".ExpenseActivity"></activity>
+        <activity android:name=".GroupInfoActivity"></activity>
+        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -23,6 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>
