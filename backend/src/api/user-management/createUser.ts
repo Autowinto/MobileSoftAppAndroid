@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 
 export async function createUser(req: Request, res: Response) {
-
+    
 }
 
 export function initCreateUser(app: Application, openApi: OpenApi) {
@@ -19,8 +19,6 @@ export function initCreateUser(app: Application, openApi: OpenApi) {
             values: ["Platinum", "Gold", "Silver", "Bronze"],
             required: true,
         }),
-
-
     };
 
 
