@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -37,8 +40,13 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+<<<<<<< HEAD
     Button( onClick = {
         context.startActivity(Intent(context, RegisterActivity::class.java))
+=======
+    Button(onClick = {
+        context.startActivity(Intent(context, HomeActivity::class.java))
+>>>>>>> eac40d9e05a0d98853ecb9376e9f2946ea77a366
 
     }) {
         Text(text = "Click me now!!!!")
@@ -47,6 +55,16 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!",
         modifier = modifier
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BackButtonNav() {
+    Row(Modifier.fillMaxWidth()) {
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "<")
+        }
+    }
 }
 
 @Preview(showBackground = true)
