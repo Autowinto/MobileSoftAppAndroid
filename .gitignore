@@ -31,3 +31,15 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+#------Backend------
+backend/.env
+
+#Node modules
+backend/node_modules
+
+#Package-lock
+backend/package-lock.json
+
+#Dist
+backend/dist
