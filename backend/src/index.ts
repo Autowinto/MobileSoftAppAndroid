@@ -4,6 +4,7 @@ import { getUser, initGetUser } from "./api/user-management/getUser";
 import * as managementRouter from './api/user-management/router';
 import { createUser, initCreateUser } from "./api/user-management/createUser";
 import { initOpenApi, openApiInstance } from "./openapi";
+import { initialize } from "./initialize";
 
 const app = express();
 dotenv.config();
@@ -19,6 +20,7 @@ initOpenApi(app, openApiInstance);
 
 // Testing
 app.listen(process.env.PORT, () => {
+    initialize();
     console.log(`Server running on port ${process.env.PORT}`);
     console.log('To see Api documentation go to', `http://${process.env.HOST}:${process.env.PORT}/docs`)
 });

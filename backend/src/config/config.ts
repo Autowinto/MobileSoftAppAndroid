@@ -4,8 +4,8 @@ dotenv.config();
 
 const MYSQL_HOST = process.env.MYSQL_HOST || 'localhost';
 const MYSQL_DATABASE = process.env.MYSQL_DATABASE || 'db';
-const MYSQL_USER = process.env.MYSQL_USER || 'user';
-const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || 'admin';
+const MYSQL_USER = process.env.MYSQL_USER || 'root';
+const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || '';
 
 const MYSQL = {
     host: MYSQL_HOST,
@@ -15,7 +15,7 @@ const MYSQL = {
 }
 
 const SERVER_HOSTNAME = process.env.HOST || 'localhost';
-const SERVER_PORT = process.env.PORT || 8081;
+const SERVER_PORT = process.env.PORT || 3306;
 
 const SERVER = {
     hostname: SERVER_HOSTNAME,
