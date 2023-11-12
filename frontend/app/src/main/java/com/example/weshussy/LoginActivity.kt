@@ -57,8 +57,8 @@ fun LoginView() {
             painter = painterResource(id = R.drawable.logo), // Replace 'logo' with the actual resource name of your logo
             contentDescription = "Logo",
             modifier = Modifier
-                .height(100.dp)
-                .width(100.dp)
+                .height(250.dp)
+                .width(250.dp)
                 .clip(RoundedCornerShape(20.dp))
         )
         Spacer(modifier = Modifier.height(16.dp))
