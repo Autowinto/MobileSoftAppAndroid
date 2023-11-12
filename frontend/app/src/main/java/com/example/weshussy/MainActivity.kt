@@ -41,8 +41,10 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
+
     Button( onClick = {
         context.startActivity(Intent(context, RegisterActivity::class.java))
+
 
     }) {
         Text(text = "Click me now!!!!")
