@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv';
-import { getUser, initGetUser } from "./api/user-management/getUser";
+import { getUser, initGetAllUser, initGetUser } from "./api/user-management/getUser";
 import * as managementRouter from './api/user-management/router';
 import { createUser, initCreateUser } from "./api/user-management/createUser";
 import { initOpenApi, openApiInstance } from "./openapi";
@@ -14,6 +14,7 @@ app.use(express.json());
 app.use('/api', managementRouter.default);
 
 initCreateUser(app, openApiInstance);
+initGetAllUser(app, openApiInstance);
 initGetUser(app, openApiInstance);
 initOpenApi(app, openApiInstance);
 

@@ -1,5 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types } from 'ts-openapi';
+import User from '../../../models/user';
 
 export async function getUser(req: Request, res: Response) {
     // const { id } = req.query;
@@ -10,8 +11,19 @@ export async function getUser(req: Request, res: Response) {
     res.send({ "name": "John" });
 }
 
+export async function getAllUsers(res: Response) {
+    const users = User.findAll().then((users) => {
+        res.json(users);
+    })
+};
+
+export function initGetAllUser(app: Application, openApi: OpenApi) {
+    app.get('/get_all_users', getAllUsers);
+}
+
 export function initGetUser(app: Application, openApi: OpenApi) {
     app.get('/get_user', getUser)
+    
 
     openApi.addPath(
         '/get_user',
