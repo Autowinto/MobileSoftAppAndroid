@@ -1,19 +1,11 @@
-import {Sequelize, DataTypes} from 'sequelize';
-import config from '../src/config/config';
+import {DataTypes} from 'sequelize';
+import { sequelize } from '../src/initialize';
 export interface User {
     id: number;
     name: string;
     email: string;
     password: string;
-    created_at: string;
-    updated_at: string;
 }
-
-const sequelize = new Sequelize(config.mysql.database, config.mysql.user, config.mysql.password, {
-    host: config.mysql.host,
-    port: 3306,
-    dialect: "mysql",
-});
 
 const User = sequelize.define(
     "user",{
@@ -33,17 +25,7 @@ const User = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        created_at: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        updated_at: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
     }
 );
-(async () => {
-    await sequelize.sync({ force: true });
-  })();
+
 export default User;

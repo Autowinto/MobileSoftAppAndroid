@@ -2,9 +2,10 @@ import express from "express";
 import dotenv from 'dotenv';
 import { getUser, initGetAllUser, initGetUser } from "./api/user-management/getUser";
 import * as managementRouter from './api/user-management/router';
-import { createUser, initCreateUser } from "./api/user-management/createUser";
+import { createUser, initAddToGroup, initCreateUser } from "./api/user-management/createUser";
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initialize } from "./initialize";
+import { initCreateGroup } from "./api/group-management/createGroup";
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,8 @@ app.use('/api', managementRouter.default);
 initCreateUser(app, openApiInstance);
 initGetAllUser(app, openApiInstance);
 initGetUser(app, openApiInstance);
+initCreateGroup(app, openApiInstance);
+initAddToGroup(app, openApiInstance);
 initOpenApi(app, openApiInstance);
 
 
