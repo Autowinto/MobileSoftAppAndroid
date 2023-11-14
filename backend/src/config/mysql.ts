@@ -10,6 +10,8 @@ const params = {
 
 const Connect = () => new
     Promise<mysql.Connection>((resolve, reject) => {
+        console.log("WOH", params)    
+
         const connection = mysql.createConnection(params)
 
         connection.connect((err) => {

@@ -4,6 +4,7 @@ import User from '../../../models/user';
 
 export async function createUser(req: Request, res: Response) {
     const u = req.body;
+    console.log("WOOOH",req.body)
     User.create({
         id: u.id,
         name: u.name,

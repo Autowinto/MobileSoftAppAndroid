@@ -5,12 +5,13 @@ import * as managementRouter from './api/user-management/router';
 import { createUser, initCreateUser } from "./api/user-management/createUser";
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initialize } from "./initialize";
+import bodyParser from "body-parser";
 
 const app = express();
 dotenv.config();
 
 app.use(express.json());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', managementRouter.default);
 
 initCreateUser(app, openApiInstance);
