@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import {Group } from '../../initialize';
+import {Group } from '../../groups/setup-groups';
 
 export async function createGroup(req: Request, res: Response) {
     const u = req.body;

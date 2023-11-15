@@ -10,7 +10,7 @@ export interface User {
 const User = sequelize.define(
     "user",{
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true,
         },
         name: {
@@ -25,6 +25,14 @@ const User = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        created_at: { //Unix timestamp
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        updated_at: { //Unix timestamp
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     }
 );
 

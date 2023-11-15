@@ -1,16 +1,28 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import {User, Group, UserGroup } from '../../initialize';
-
+import {User, Group, UserGroup } from '../../groups/setup-groups';
+import * as moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 export async function createUser(req: Request, res: Response) {
-    const u = req.body;
+    const user = req.body;
+    const uid = uuidv4();
+
     User.create({
-        id: u.id,
-        name: u.name,
-        email: u.email,
-        password: u.password,
+        id: uid,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        created_at: moment.now(),
+        updated_at: moment.now()
+    }).then(() => {
+        res.status(200).send("User added successfully")
+    }).catch((err) => {
+        console.log(err)
+        const error: Seq = err.erros[0];
+        if (user.name == null || user.email == null || user.password == null) {
+            res.status(400).send("Error creating user, bad syntax")  
+        }
     })
-    res.send("User added")
 }
 
 export async function addToGroup(req: Request, res: Response) {

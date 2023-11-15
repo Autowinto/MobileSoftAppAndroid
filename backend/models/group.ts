@@ -4,7 +4,7 @@ import { sequelize } from '../src/initialize';
 const Group = sequelize.define(
     "group", {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true
         },
         name: {

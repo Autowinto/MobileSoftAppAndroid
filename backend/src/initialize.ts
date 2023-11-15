@@ -1,5 +1,5 @@
 import config from './config/config'
-const mysql = require('mysql2/promise');
+import * as mysql from 'mysql2/promise'
 import {Sequelize} from 'sequelize';
 
 
@@ -13,14 +13,8 @@ export async function initialize() {
     const {host, user, password, database} = config.mysql
     const port = 3306;
     const connection = await mysql.createConnection({ host, port, user, password });
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
-}
-import User from '../models/user';
-import Group from '../models/group';
-import UserGroup from '../models/usergroup'
-Group.belongsToMany(User, {through: UserGroup, foreignKey: 'groupId'});
-User.belongsTo(Group, {foreignKey: 'groupId'});
-User.belongsToMany(Group, {through: UserGroup, foreignKey: 'userId'});
-sequelize.sync()
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`).then(() => {
 
-export {User, Group, UserGroup}
+    })
+}
+

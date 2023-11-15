@@ -6,12 +6,13 @@ import { createUser, initAddToGroup, initCreateUser } from "./api/user-managemen
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initialize } from "./initialize";
 import { initCreateGroup } from "./api/group-management/createGroup";
+import bodyParser from "body-parser";
 
 const app = express();
 dotenv.config();
 
 app.use(express.json());
-
+app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 app.use('/api', managementRouter.default);
 
 initCreateUser(app, openApiInstance);

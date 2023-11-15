@@ -4,11 +4,11 @@ import { sequelize } from '../src/initialize';
 const UserGroup = sequelize.define(
     'userGroup', {
         userId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true,
           },
           groupId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             primaryKey: true,
           },
     },

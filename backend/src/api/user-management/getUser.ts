@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types } from 'ts-openapi';
-import {User } from '../../initialize';
+import { User } from '../../groups/setup-groups';
 
 export async function getUser(req: Request, res: Response) {
     // const { id } = req.query;
