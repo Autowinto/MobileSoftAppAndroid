@@ -18,7 +18,7 @@ export async function createUser(req: Request, res: Response) {
         res.status(200).send("User added successfully")
     }).catch((err) => {
         console.log(err)
-        const error: Seq = err.erros[0];
+        const error = err.erros[0];
         if (user.name == null || user.email == null || user.password == null) {
             res.status(400).send("Error creating user, bad syntax")  
         }
