@@ -1,5 +1,6 @@
 import { initGetAllUser, initGetUser } from "./api/user-management/getUser";
-import * as managementRouter from './api/user-management/router';
+import * as userRouter from './api/user-management/router';
+import * as groupRouter from './api/group-management/router';
 import { initAddToGroup, initCreateUser } from "./api/user-management/createUser";
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initCreateGroup } from "./api/group-management/createGroup";
@@ -16,7 +17,10 @@ export async function appInit() {
 
     app.use(express.json());
     app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
-    app.use('/api', managementRouter.default);
+
+    // Set routes
+    app.use('/api/user_management', userRouter.default);
+    app.use('/api/group_management', groupRouter.default)
 
     // User Management
     initCreateUser(app, openApiInstance);
@@ -27,6 +31,8 @@ export async function appInit() {
     // Group Management
     initCreateGroup(app, openApiInstance);
     initAddToGroup(app, openApiInstance);
+
+    // OpenApi
     initOpenApi(app, openApiInstance);
 
 

@@ -3,6 +3,7 @@ import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { User, Group, UserGroup } from '../../groups/setup-groups';
 import * as moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+
 export async function createUser(req: Request, res: Response) {
     const user = req.body;
     const uid = uuidv4();

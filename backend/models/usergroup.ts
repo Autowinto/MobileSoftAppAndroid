@@ -11,6 +11,9 @@ const UserGroup = sequelize.define(
     type: DataTypes.STRING,
     primaryKey: true,
   },
+  expenses: {
+    type: DataTypes.ARRAY(DataTypes.NUMBER),
+  }
 },
   {
     timestamps: false,

@@ -5,9 +5,9 @@ import { updateUser } from "./updateUser";
 
 const router = express.Router();
 
-router.get('/get_user', getUser);
-router.get('/get_all_users', getAllUsers);
-router.post('/create_user', createUser);
-router.post('/update_user', updateUser)
+router.get('/user', getUser);
+router.get('/users', getAllUsers);
+router.post('/user', createUser);
+router.put('/user', updateUser)
 
 export default router;

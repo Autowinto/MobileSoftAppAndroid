@@ -7,11 +7,15 @@ const Group = sequelize.define(
         type: DataTypes.STRING,
         primaryKey: true
     },
+    user_ids: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    expenses: {
+    totalExpense: {
         type: DataTypes.INTEGER,
         allowNull: false,
     }

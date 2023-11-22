@@ -1,13 +1,13 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import {Group } from '../../groups/setup-groups';
+import { Group } from '../../groups/setup-groups';
 
 export async function createGroup(req: Request, res: Response) {
-    const u = req.body;
+    const user = req.body;
     Group.create({
-        id: u.id,
-        name: u.name,
-        moneyAmount: u.moneyAmount
+        id: user.id,
+        name: user.name,
+        expenses: 0,
     })
     res.send("Group added")
 }
@@ -17,24 +17,23 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
 
     const commonProperties = {
         name: Types.String({
-            description: "User name",
+            description: "Group Name",
             maxLength: 100,
             required: true,
         }),
-        type: Types.StringEnum({
+        type: Types.String({
             description: "User type",
-            values: ["Platinum", "Gold", "Silver", "Bronze"],
             required: true,
         }),
     };
 
 
     openApi.addPath(
-        "/createGroup",
+        "/create_group",
         {
             post: {
-                summary: "Create User",
-                description: "This operation creates a new User",
+                summary: "Create Group",
+                description: "This operation creates a new Group",
                 operationId: "post-Group-op",
                 requestSchema: {
                     headers: {
@@ -49,7 +48,7 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
                         properties: commonProperties,
                     }),
                 },
-                tags: ["User Operations"],
+                tags: ["Group Operations"],
                 responses: {
                     201: textPlain("Created"),
                     400: textPlain("Bad Request"),
