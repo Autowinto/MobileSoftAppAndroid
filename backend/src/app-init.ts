@@ -1,11 +1,11 @@
-import { initGetAllUser, initGetUser } from "./api/user-management/getUser";
+import { initGetAllUser, initGetUser } from "./api/user-management/get-user";
 import * as userRouter from './api/user-management/router';
 import * as groupRouter from './api/group-management/router';
-import { initAddToGroup, initCreateUser } from "./api/user-management/createUser";
+import { initAddToGroup, initCreateUser } from "./api/user-management/create-user";
 import { initOpenApi, openApiInstance } from "./openapi";
-import { initCreateGroup } from "./api/group-management/createGroup";
+import { initCreateGroup } from "./api/group-management/create-group";
 import bodyParser from "body-parser";
-import { initUpdateUser } from "./api/user-management/updateUser";
+import { initUpdateUser } from "./api/user-management/update-user";
 import express from "express";
 import dotenv from 'dotenv';
 

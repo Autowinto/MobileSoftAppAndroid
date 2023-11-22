@@ -2,6 +2,7 @@ import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { Group, UserGroup } from '../../groups/setup-groups';
 import { v4 as uuidv4 } from 'uuid';
+
 export async function createGroup(req: Request, res: Response) {
 
     try {

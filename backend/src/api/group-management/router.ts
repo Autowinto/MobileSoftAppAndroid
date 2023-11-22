@@ -1,5 +1,5 @@
 import express from "express";
-import { createGroup } from "./createGroup";
+import { createGroup } from "./create-group";
 
 const router = express.Router();
 

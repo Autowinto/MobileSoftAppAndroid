@@ -1,7 +1,7 @@
 import express from "express";
-import { getAllUsers, getUser } from "./getUser";
-import { createUser } from "./createUser";
-import { updateUser } from "./updateUser";
+import { getAllUsers, getUser } from "./get-user";
+import { createUser } from "./create-user";
+import { updateUser } from "./update-user";
 
 const router = express.Router();
 
