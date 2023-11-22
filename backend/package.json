@@ -93,7 +93,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "nodemon .",
-    "dev": "nodemon ."
+    "dev": "tsnd --respawn --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "",

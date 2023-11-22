@@ -9,6 +9,8 @@ import { initCreateGroup } from "./api/group-management/createGroup";
 import bodyParser from "body-parser";
 import { initUpdateUser } from "./api/user-management/updateUser";
 
+const SERVER_PORT = process.env.PORT || 8081
+
 const app = express();
 dotenv.config();
 
@@ -29,8 +31,8 @@ initOpenApi(app, openApiInstance);
 
 
 // Testing
-app.listen(process.env.PORT, () => {
-    initialize();
-    console.log(`Server running on port ${process.env.PORT}`);
-    console.log('To see Api documentation go to', `http://${process.env.HOST}:${process.env.PORT}/docs`)
+const listener = app.listen(SERVER_PORT, () => {
+    console.log(listener.address())
+    console.log(`Server running on port ${SERVER_PORT}`);
+    console.log('To see Api documentation go to', `http://127.0.0.1:${SERVER_PORT}/docs`)
 });
