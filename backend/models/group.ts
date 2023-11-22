@@ -1,15 +1,12 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../src/initialize';
+import { group } from 'console';
 
-const Group = sequelize.define(
-    "group", {
+const GroupTable = sequelize.define(
+    "grouptable", {
     id: {
         type: DataTypes.STRING,
         primaryKey: true
-    },
-    user_ids: {
-        type: DataTypes.STRING,
-        allowNull: false,
     },
     name: {
         type: DataTypes.STRING,
@@ -18,9 +15,13 @@ const Group = sequelize.define(
     totalExpense: {
         type: DataTypes.INTEGER,
         allowNull: false,
-    }
+    },
+    ownerId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 }
 );
 
 
-export default Group;
+export default GroupTable;

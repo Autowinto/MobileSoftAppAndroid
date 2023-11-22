@@ -24,7 +24,7 @@ export async function updateUser(req: Request, res: Response) {
 }
 
 export async function initUpdateUser(app: Application, openApi: OpenApi) {
-    app.post('/update_user', updateUser)
+    app.post('/', updateUser)
 
     const commonProperties = {
         name: Types.String({
@@ -42,7 +42,7 @@ export async function initUpdateUser(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/update_user",
+        "/",
         {
             post: {
                 summary: "Update User",

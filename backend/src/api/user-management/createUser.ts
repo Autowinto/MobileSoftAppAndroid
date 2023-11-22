@@ -85,7 +85,7 @@ export function initAddToGroup(app: Application, openApi: OpenApi) {
     );
 }
 export function initCreateUser(app: Application, openApi: OpenApi) {
-    app.post('/create_user', createUser)
+    app.post('/', createUser)
 
     const commonProperties = {
         name: Types.String({
@@ -102,7 +102,7 @@ export function initCreateUser(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/create_user",
+        "/",
         {
             post: {
                 summary: "Create User",

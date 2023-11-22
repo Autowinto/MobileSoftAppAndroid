@@ -12,7 +12,13 @@ const UserGroup = sequelize.define(
     primaryKey: true,
   },
   expenses: {
-    type: DataTypes.ARRAY(DataTypes.NUMBER),
+    type: DataTypes.STRING,
+    get: function () {
+      return JSON.parse(this.getDataValue('expenses'));
+    },
+    set: function (val) {
+      this.setDataValue('expenses', JSON.stringify(val));
+    },
   }
 },
   {
