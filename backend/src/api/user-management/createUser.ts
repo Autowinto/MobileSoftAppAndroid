@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import {User, Group, UserGroup } from '../../groups/setup-groups';
+import { User, Group, UserGroup } from '../../groups/setup-groups';
 import * as moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 export async function createUser(req: Request, res: Response) {
@@ -20,7 +20,7 @@ export async function createUser(req: Request, res: Response) {
         console.log(err)
         const error = err.erros[0];
         if (user.name == null || user.email == null || user.password == null) {
-            res.status(400).send("Error creating user, bad syntax")  
+            res.status(400).send("Error creating user, bad syntax")
         }
     })
 }
@@ -32,7 +32,7 @@ export async function addToGroup(req: Request, res: Response) {
         userId: user.dataValues.id,
         groupId: group.dataValues.id
     });
-    res.send(user.dataValues.name + " was added to group: " + group.dataValues.name );
+    res.send(user.dataValues.name + " was added to group: " + group.dataValues.name);
 }
 
 export function initAddToGroup(app: Application, openApi: OpenApi) {
