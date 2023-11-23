@@ -1,9 +1,11 @@
 export interface user {
     id: string,
-    name: string,
-    //Last name <--
+    first_name: string,
+    last_name : string,
+    password : string,
     email: string,
-    //Phone number <--
+    phoneNmb: string,
+    enableNotifs: boolean,
     created_at: number,
     updated_at: number,
 }

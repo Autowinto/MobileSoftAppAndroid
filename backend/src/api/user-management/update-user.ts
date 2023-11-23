@@ -1,28 +1,41 @@
-import { Application, Request, Response } from 'express';
+import { Application, Request, Response} from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { User, Group, UserGroup } from '../../groups/setup-groups';
+import { getUser } from './get-user';
 import * as moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { where } from 'sequelize';
 import * as UserType from '../../../shared_models/user'
 
 export async function updateUser(req: Request, res: Response) {
-    const { name, email, password, id } = req.body
-    console.log(id)
+    const user = req.body;
+
+    User.findOne({ where: { id: user.id } }).then((response) => {
+        if (response) {
+            putUser(user, res);
+        } else {
+            res.status(400).send('User does not exist');
+        }
+    });
+}
+
+async function putUser(user : UserType.user, res: Response) {
     User.update({
-        name,
-        email,
-        password,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        password: user.password,
+        phoneNmb: user.phoneNmb,
+        enableNotifs: user.enableNotifs,
         updated_at: moment.now()
     },
-        { where: { id: id } }
-    ).then((response) => {
+        { where: { id: user.id } }
+    ).then(() => {
         res.status(200).send('User updated succesfully')
-    }).catch((err) => {
+    }).catch(() => {
         res.status(400).send('User could not be updated')
     })
 }
-
 export async function initUpdateUser(app: Application, openApi: OpenApi) {
     app.post('/', updateUser)
 

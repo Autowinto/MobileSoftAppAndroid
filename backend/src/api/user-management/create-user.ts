@@ -1,6 +1,7 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { User, Group, UserGroup } from '../../groups/setup-groups';
+import { Op } from 'sequelize';
 import * as moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
@@ -8,32 +9,28 @@ import bcrypt from 'bcrypt';
 export async function createUser(req: Request, res: Response) {
     const user = req.body;
     const uid = uuidv4();
-    
-    const hashedPassword = await hasher(user.password);
-
-    // Check if email already exists in the database
-    const existingUser = await User.findOne({
-        where: { email: user.email }
-    });
-    if (existingUser) {
-        return res.status(400).send("Email already exists");
+    const exist = await phoneEmailCheck(user.phoneNmb, user.email);
+    if (exist) {
+        res.status(400).send("User already exists");
+        return;
     }
+    const hashedPassword = await hasher(user.password);
+    
 
     User.create({
         id: uid,
-        name: user.name,
+        first_name: user.first_name,
+        last_name: user.last_name,
         email: user.email,
+        phoneNmb: user.phoneNmb,
         password: hashedPassword,
-        created_at: moment.now(),
-        updated_at: moment.now()
+        enableNotifs: user.enableNotifs,
     }).then(() => {
         res.status(200).send("User added successfully");
     }).catch((err) => {
         console.log(err);
         const error = err.erros[0];
-        if (user.name == null || user.email == null || user.password == null) {
-            res.status(400).send("Error creating user, bad syntax");
-        }
+        res.status(400).send(error.message);
     });
 }
 async function hasher(password: string) {
@@ -42,6 +39,19 @@ async function hasher(password: string) {
     // Hash the password with the salt
     const hashedPassword = await bcrypt.hash(password, salt);
     return hashedPassword;
+}
+async function phoneEmailCheck(phoneNmb: string, email: string) {
+    const existingUser = await User.findOne({
+        where:{ 
+            [Op.or]:[
+            {email: email },
+            {phoneNmb: phoneNmb}
+        ]
+    }});
+    if (existingUser) {
+        return true;
+    }
+    else return false;
 }
 
 export function initCreateUser(app: Application, openApi: OpenApi) {
