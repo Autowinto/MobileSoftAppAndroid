@@ -10,6 +10,7 @@ import express from "express";
 import dotenv from 'dotenv';
 import { initAddMember } from "./api/group-management/add-member";
 import { initDeleteGroup } from "./api/group-management/delete-group";
+import { initGetMembers } from "./api/group-management/get-members";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -36,6 +37,7 @@ export async function appInit() {
 
     // Member management
     initAddMember(app, openApiInstance);
+    initGetMembers(app, openApiInstance);
 
     // OpenApi
     initOpenApi(app, openApiInstance);

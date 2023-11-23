@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 export async function createGroup(req: Request, res: Response) {
 
     try {
-        const { name, user_id: userId } = req.body;
+        const { name, userId } = req.body;
         const groupId = uuidv4();
 
         if (name == null || userId == null) {
@@ -47,7 +47,7 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
             maxLength: 100,
             required: true,
         }),
-        user_id: Types.String({
+        userId: Types.String({
             description: "User ID",
             required: true,
         }),
@@ -55,7 +55,7 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/create_group",
+        "/",
         {
             post: {
                 summary: "Create Group",
@@ -68,7 +68,7 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
                             required: true,
                             example: "Bjarkes gruppe",
                         }),
-                        user_id: Types.Uuid({
+                        userId: Types.Uuid({
                             description: "User ID, the user creating the group",
                             required: true,
                             example: "b710e129-4e2c-4448-b605-73b18d297bae",
