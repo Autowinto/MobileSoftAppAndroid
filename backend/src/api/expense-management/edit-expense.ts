@@ -7,17 +7,14 @@ export async function editExpense(req: Request, res: Response) {
     try {
         const { expenseId, newAmount } = req.body;
 
-        // Ensure newAmount is provided
         if (newAmount === undefined) {
             throw "No new amount provided";
         }
 
-        // Ensure the expenseId is provided
         if (!expenseId) {
             throw "Expense ID is required";
         }
 
-        // Perform the update
         await Expense.update({ amount: newAmount }, { where: { id: expenseId } });
 
         res.status(200).send("Expense amount updated successfully");
@@ -28,7 +25,7 @@ export async function editExpense(req: Request, res: Response) {
 }
 
 export function initEditExpense(app: Application, openApi: OpenApi) {
-    app.put('/expense', editExpense); 
+    app.put('/', editExpense); 
 
     const commonProperties = {
         amount: Types.Number({
@@ -50,7 +47,7 @@ export function initEditExpense(app: Application, openApi: OpenApi) {
     }
 
     openApi.addPath(
-        "/expense",
+        "/",
         {
             put: {
                 summary: "Update Expense",
