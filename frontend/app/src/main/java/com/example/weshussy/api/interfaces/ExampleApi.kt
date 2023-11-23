@@ -7,8 +7,8 @@ import retrofit2.http.GET
 
 interface ExampleApi {
     @GET("examples/{id}")
-    fun getExampleById(): Call<Example>
+    suspend fun getExampleById(): Call<Example>
 
     @GET("examples")
-    fun getExamples(): Call<List<Example>>
+    suspend fun getExamples(): Call<List<Example>>
 }
