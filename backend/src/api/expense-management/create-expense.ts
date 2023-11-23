@@ -9,20 +9,20 @@ export async function createExpense(req: Request, res: Response) {
         const {userId, groupId, amount} = req.body;
         const expenseId = uuidv4();
 
-        if (userId == null || groupId == null || amount){
+        if (userId == null || groupId == null || amount == null){
             throw "Error creating expense, missing amount, group ID or user ID"
         }
         Expense.create({
             id: expenseId,
             amount,
-            groupId,
-            userId
+            groupId: groupId,
+            userId: userId
         }).catch((err) => {
             throw err;
         });
 
         res.status(201).send("Expense created successfully");
-    } catch (error) {
+    } catch (error) { 
         console.log(error);
         res.status(400).send(error);
     }
