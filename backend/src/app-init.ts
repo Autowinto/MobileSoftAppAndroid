@@ -13,6 +13,7 @@ import { initAddMember } from "./api/group-management/add-member";
 import { initDeleteGroup } from "./api/group-management/delete-group";
 import { initGetMembers } from "./api/group-management/get-members";
 import { initCreateExpense } from "./api/expense-management/create-expense";
+import { initEditExpense } from "./api/expense-management/edit-expense";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -44,6 +45,8 @@ export async function appInit() {
 
     // Expense management
     initCreateExpense(app, openApiInstance);
+    initEditExpense(app, openApiInstance);
+    
 
     // OpenApi
     initOpenApi(app, openApiInstance);
