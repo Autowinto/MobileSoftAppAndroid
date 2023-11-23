@@ -16,6 +16,8 @@ export async function addMember(req: Request, res: Response) {
         await UserGroup.create({
             userId: user.dataValues.id,
             groupId: group.dataValues.id
+        }).catch((err) => {
+            throw err
         });
 
         res.status(201).send(user.dataValues.name + " was added to group: " + group.dataValues.name);
