@@ -1,31 +1,29 @@
-import { Application, Request, Response } from 'express';
+import { Application, Request, Response, response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { Expense, User, Group } from '../../expenses/setup-expenses';
+import { where } from 'sequelize';
 
-export async function editExpense(req: Request, res: Response){
-    try{
-        const {expenseId, newAmount, newGroupId, newUserId} = req.body;
+export async function editExpense(req: Request, res: Response) {
+    try {
+        const { expenseId, newAmount } = req.body;
 
-        if(!newAmount && !newGroupId && !newUserId){
-            throw "No new information provided";
+        // Ensure newAmount is provided
+        if (newAmount === undefined) {
+            throw "No new amount provided";
         }
 
-        const expense = await Expense.findByPk(expenseId);
-        if(!expense){
-            throw "Expense not found";
+        // Ensure the expenseId is provided
+        if (!expenseId) {
+            throw "Expense ID is required";
         }
 
-        if(newAmount) expense.dataValues.amount = newAmount;
-        if(newGroupId) expense.dataValues.groupId = newGroupId;
-        if(newUserId) expense.dataValues.userId = newUserId;
+        // Perform the update
+        await Expense.update({ amount: newAmount }, { where: { id: expenseId } });
 
-        expense.save();
-
-        res.status(200).send("Expense Updated")
-    }
-    catch(error){
+        res.status(200).send("Expense amount updated successfully");
+    } catch (error) {
         console.log(error);
-        res.status(400).send(error);
+        res.status(400).send("Error updating expense: " + error);
     }
 }
 
