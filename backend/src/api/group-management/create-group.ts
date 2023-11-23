@@ -8,7 +8,6 @@ export async function createGroup(req: Request, res: Response) {
     try {
         const { group_name: groupName, user_id: userId } = req.body;
         const groupId = uuidv4();
-
         if (groupName == null || userId == null) {
             throw "Error creating group, no group name or user id was provided";
         }
