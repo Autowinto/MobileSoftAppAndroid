@@ -1,23 +1,27 @@
-import { DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../src/initialize';
+import { group } from 'console';
 
-const Group = sequelize.define(
-    "group", {
-        id: {
-            type: DataTypes.STRING,
-            primaryKey: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        moneyAmount: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        }
-
-    }
+const GroupTable = sequelize.define(
+    "grouptable", {
+    id: {
+        type: DataTypes.STRING,
+        primaryKey: true
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    totalExpense: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    ownerId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+}
 );
 
 
-export default Group;
+export default GroupTable;

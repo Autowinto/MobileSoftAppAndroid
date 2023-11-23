@@ -1,13 +1,13 @@
 import express from "express";
-import { getAllUsers, getUser } from "./getUser";
-import { createUser } from "./createUser";
-import { updateUser } from "./updateUser";
+import { getAllUsers, getUser } from "./get-user";
+import { createUser } from "./create-user";
+import { updateUser } from "./update-user";
 
 const router = express.Router();
 
-router.get('/get_user', getUser);
-router.get('/get_all_users', getAllUsers);
-router.post('/create_user', createUser);
-router.post('/update_user', updateUser)
+router.get('/user', getUser);
+router.get('/users', getAllUsers);
+router.post('/', createUser);
+router.put('/', updateUser)
 
 export default router;

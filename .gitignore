@@ -43,3 +43,4 @@ backend/package-lock.json
 
 #Dist
 backend/dist
+.vscode/settings.json
