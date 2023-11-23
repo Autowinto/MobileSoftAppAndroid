@@ -1,13 +1,14 @@
 import { initGetAllUser, initGetUser } from "./api/user-management/get-user";
 import * as userRouter from './api/user-management/router';
 import * as groupRouter from './api/group-management/router';
-import { initAddToGroup, initCreateUser } from "./api/user-management/create-user";
+import { initCreateUser } from "./api/user-management/create-user";
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initCreateGroup } from "./api/group-management/create-group";
 import bodyParser from "body-parser";
 import { initUpdateUser } from "./api/user-management/update-user";
 import express from "express";
 import dotenv from 'dotenv';
+import { initAddMember } from "./api/group-management/add-member";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -30,7 +31,7 @@ export async function appInit() {
 
     // Group Management
     initCreateGroup(app, openApiInstance);
-    initAddToGroup(app, openApiInstance);
+    initAddMember(app, openApiInstance);
 
     // OpenApi
     initOpenApi(app, openApiInstance);
