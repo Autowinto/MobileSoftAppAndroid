@@ -1,4 +1,4 @@
-package com.example.weshussy
+package com.example.weshussy.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,12 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.R
 import com.example.weshussy.ui.theme.WeShussyTheme
 
 class LoginActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package com.example.weshussy
+package com.example.weshussy.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

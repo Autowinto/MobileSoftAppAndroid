@@ -1,4 +1,4 @@
-package com.example.weshussy
+package com.example.weshussy.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,10 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.weshussy.ui.theme.WeShussyTheme
 
-class ProfileActivity : ComponentActivity() {
+class ExpenseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,13 +21,17 @@ class ProfileActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ProfileText()
+                    ExpenseView()
                 }
             }
         }
     }
 }
+
+
 @Composable
-fun ProfileText() {
-    Text(text = "PROFILE")
+fun ExpenseView() {
+    BaseActivity(slotContent = {
+        Text(text = "Add Expense")
+    })
 }

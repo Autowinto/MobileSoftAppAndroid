@@ -12,16 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeShussy"
         tools:targetApi="31">
-        <activity android:name=".ExpenseActivity"></activity>
-        <activity android:name=".GroupInfoActivity"></activity>
+        <activity android:name=".ui.activities.ExpenseActivity"></activity>
+        <activity android:name=".ui.activities.GroupInfoActivity"></activity>
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.activities.HistoryActivity"
             android:exported="true">
 
         </activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".ui.activities.HomeActivity"></activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
             >
 
@@ -32,14 +32,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.WeShussy">
 
         </activity>
-        <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".ui.activities.ProfileActivity"></activity>
+        <activity android:name=".ui.activities.RegisterActivity"></activity>
     </application>
 
 </manifest>

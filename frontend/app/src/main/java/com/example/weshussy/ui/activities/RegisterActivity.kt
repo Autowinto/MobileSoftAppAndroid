@@ -1,4 +1,4 @@
-package com.example.weshussy
+package com.example.weshussy.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.R
 import com.example.weshussy.ui.theme.WeShussyTheme
 
 class RegisterActivity : ComponentActivity() {
