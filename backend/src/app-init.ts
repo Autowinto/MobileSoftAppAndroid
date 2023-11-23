@@ -1,6 +1,7 @@
 import { initGetAllUser, initGetUser } from "./api/user-management/get-user";
 import * as userRouter from './api/user-management/router';
 import * as groupRouter from './api/group-management/router';
+import * as expenseRouter from './api/expense-management/router';
 import { initCreateUser } from "./api/user-management/create-user";
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initCreateGroup } from "./api/group-management/create-group";
@@ -11,6 +12,7 @@ import dotenv from 'dotenv';
 import { initAddMember } from "./api/group-management/add-member";
 import { initDeleteGroup } from "./api/group-management/delete-group";
 import { initGetMembers } from "./api/group-management/get-members";
+import { initCreateExpense } from "./api/expense-management/create-expense";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -24,6 +26,7 @@ export async function appInit() {
     // Set routes
     app.use('/api/user', userRouter.default);
     app.use('/api/group', groupRouter.default)
+    app.use('/api/expense', expenseRouter.default)
 
     // User Management
     initCreateUser(app, openApiInstance);
@@ -38,6 +41,9 @@ export async function appInit() {
     // Member management
     initAddMember(app, openApiInstance);
     initGetMembers(app, openApiInstance);
+
+    // Expense management
+    initCreateExpense(app, openApiInstance);
 
     // OpenApi
     initOpenApi(app, openApiInstance);
