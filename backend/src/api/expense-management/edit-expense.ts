@@ -1,6 +1,6 @@
 import { Application, Request, Response, response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import { Expense, User, Group } from '../../expenses/setup-expenses';
+import { Expense, ExpenseHistory } from '../../expenses/setup-expenses';
 import { where } from 'sequelize';
 
 export async function editExpense(req: Request, res: Response) {
@@ -17,7 +17,17 @@ export async function editExpense(req: Request, res: Response) {
             throw "Expense ID is required";
         }
 
+        
+
         await Expense.update({ amount: newAmount }, { where: { id: expenseId } });
+
+        const expense = await Expense.findByPk(expenseId);
+        await ExpenseHistory.create({
+            expenseId: expenseId,
+            changes: {
+                oldAmount: expense.dataValues.amount, // Assuming 'amount' is the field you're updating
+                newAmount: newAmount
+            }});
 
         res.status(200).send("Expense amount updated successfully");
     } catch (error) {
@@ -58,12 +68,7 @@ export function initEditExpense(app: Application, openApi: OpenApi) {
                 requestSchema: {
                     body: Types.Object({
                         description: "Expense update data",
-                        properties: {
-                            expenseId: Types.String({ required: true }),
-                            newAmount: Types.Number({ required: false }),
-                            newGroupId: Types.String({ required: false }),
-                            newUserId: Types.String({ required: false }),
-                        },
+                        properties: commonProperties
                     }),
                 },
                 tags: ["Expense Operations"],
