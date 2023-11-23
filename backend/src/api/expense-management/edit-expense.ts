@@ -1,12 +1,13 @@
 import { Application, Request, Response, response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { Expense, ExpenseHistory } from '../../expenses/setup-expenses';
+import { v4 as uuidv4 } from 'uuid';
 import { where } from 'sequelize';
 
 export async function editExpense(req: Request, res: Response) {
     try {
         const { expenseId, newAmount } = req.body;
-
+        const expenseHistoryId = uuidv4();
 
         if (newAmount === undefined) {
             throw "No new amount provided";
@@ -23,6 +24,7 @@ export async function editExpense(req: Request, res: Response) {
 
         const expense = await Expense.findByPk(expenseId);
         await ExpenseHistory.create({
+            id: expenseHistoryId,
             expenseId: expenseId,
             changes: {
                 oldAmount: expense.dataValues.amount, // Assuming 'amount' is the field you're updating
