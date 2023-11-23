@@ -7,9 +7,11 @@ export async function editExpense(req: Request, res: Response) {
     try {
         const { expenseId, newAmount } = req.body;
 
+
         if (newAmount === undefined) {
             throw "No new amount provided";
         }
+
 
         if (!expenseId) {
             throw "Expense ID is required";
