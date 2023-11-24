@@ -15,7 +15,9 @@ export async function addMember(req: Request, res: Response) {
 
         await UserGroup.create({
             userId: user.dataValues.id,
-            groupId: group.dataValues.id
+            groupId: group.dataValues.id,
+        }).catch((err) => {
+            throw err
         });
 
         res.status(201).send(user.dataValues.name + " was added to group: " + group.dataValues.name);
@@ -27,15 +29,15 @@ export async function addMember(req: Request, res: Response) {
 }
 
 export function initAddMember(app: Application, openApi: OpenApi) {
-    app.post('/add_member', addMember)
+    app.post('/members/', addMember);
 
     const commonProperties = {
-        group_id: Types.String({
+        userId: Types.String({
             description: "User ID",
             maxLength: 100,
             required: true,
         }),
-        user_id: Types.String({
+        groupId: Types.String({
             description: "Group ID",
             required: true,
         }),
@@ -43,7 +45,7 @@ export function initAddMember(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/create_group",
+        "/members/",
         {
             post: {
                 summary: "Add Member to Group",
@@ -51,12 +53,12 @@ export function initAddMember(app: Application, openApi: OpenApi) {
                 operationId: "post-addmember-op",
                 requestSchema: {
                     headers: {
-                        user_id: Types.Uuid({
+                        userId: Types.Uuid({
                             description: "User ID, the user joining the group",
                             required: true,
                             example: "b710e129-4e2c-4448-b605-73b18d297bae",
                         }),
-                        group_id: Types.Uuid({
+                        groupId: Types.Uuid({
                             description: "Group ID, the grup the user is joining",
                             required: true,
                             example: "b710e129-4e2c-4448-b605-73b18d297bae",

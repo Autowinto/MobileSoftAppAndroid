@@ -13,7 +13,11 @@ const User = sequelize.define(
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    name: {
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    last_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -21,18 +25,18 @@ const User = sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
     },
+    phoneNmb: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    created_at: { //Unix timestamp
-        type: DataTypes.STRING,
+    enableNotifs: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
     },
-    updated_at: { //Unix timestamp
-        type: DataTypes.STRING,
-        allowNull: false,
-    }
 }
 );
 
