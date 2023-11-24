@@ -50,7 +50,7 @@ fun HomeView() {
                     .clickable(onClick = {
                         Intent(
                             context,
-                            ProfileActivity::class.java
+                            GroupInfoActivity::class.java
                         ).also { context.startActivity(it) }
                     })
 
@@ -58,9 +58,6 @@ fun HomeView() {
             Spacer(modifier = Modifier.height(32.dp))
             GroupInfoCard()
             GroupInfoCard()
-            Button( onClick = { }) {
-                Text(text = "Create Group")
-            }
         }
     })
 }
