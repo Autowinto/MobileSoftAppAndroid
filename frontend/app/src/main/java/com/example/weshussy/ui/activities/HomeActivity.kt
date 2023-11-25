@@ -48,6 +48,7 @@ import com.example.weshussy.R
 import com.example.weshussy.ui.activities.GroupCreateActivity
 import com.example.weshussy.api.data.Group
 import com.example.weshussy.components.BalanceCard
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.HomeViewModel
 import kotlinx.coroutines.launch
@@ -71,10 +72,12 @@ fun HomeView(viewModel: HomeViewModel) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     var groups by remember { mutableStateOf<List<Group>>(emptyList()) }
-    val coroutineScope = rememberCoroutineScope()
+    val user = UserSession.getUser() ?: return
+    val userId by remember { mutableStateOf(user.id)}
 
     LaunchedEffect(key1 = Unit) {
-        groups = viewModel.getGroupsForUser("123")
+
+        groups = viewModel.getGroupsForUser(userId)
         println(groups)
     }
     Surface(
@@ -104,7 +107,6 @@ fun HomeView(viewModel: HomeViewModel) {
                 Column(modifier = Modifier
                     .fillMaxHeight(0.5f)
                     .verticalScroll(rememberScrollState())) {
-                    println(groups+"DET HER LORT")
                     for (group in groups) {
                         BalanceCard(
                             groupName = group.name,
@@ -113,29 +115,6 @@ fun HomeView(viewModel: HomeViewModel) {
                             onCardClick = { context.startActivity(Intent(context, GroupInfoActivity::class.java))},
                             onNotificationClick = { showDialog = true})
                     }
-                    BalanceCard(
-                        groupName = "Group 1",
-                        balance = "$150",
-                        total = "$1000",
-
-                        onCardClick = {
-                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                        },
-                        onNotificationClick = {
-                            showDialog = true
-                        }
-                    )
-                    BalanceCard(
-                        groupName = "Group 2",
-                        balance = "$250",
-                        total = "$1000",
-                        onCardClick = {
-                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                        },
-                        onNotificationClick = {
-                            showDialog = true
-                        }
-                    )
                 }
 
 
