@@ -47,7 +47,7 @@ export async function initUpdateUser(app: Application, openApi: OpenApi) {
             post: {
                 summary: "Update User",
                 description: "This operation updates a User",
-                operationId: "post-update-the-user-op",
+                operationId: "post-update-user-op",
                 requestSchema: {
                     headers: {
                         id: Types.Uuid({

@@ -45,7 +45,7 @@ export function initGetExpenseHistory(app: Application, openApi: OpenApi){
             put: {
                 summary: "Get Expense History",
                 description: "Get History of an existing Expense",
-                operationId: "get-Expense-op",
+                operationId: "get-Expense-history-op",
                 requestSchema: {
                     body: Types.Object({
                         description: "Expense history data",

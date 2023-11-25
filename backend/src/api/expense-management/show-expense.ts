@@ -39,7 +39,7 @@ export function initGetExpenseDetails(app: Application, openApi: OpenApi){
         post: {
             summary: "Update User",
             description: "This operation updates a User",
-            operationId: "post-update-user-op",
+            operationId: "get-expense-details-op",
             requestSchema: {
                 headers: {
                     id: Types.Uuid({
