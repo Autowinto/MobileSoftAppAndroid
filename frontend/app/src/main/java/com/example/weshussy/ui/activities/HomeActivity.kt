@@ -34,6 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,25 +49,35 @@ import com.example.weshussy.ui.activities.GroupCreateActivity
 import com.example.weshussy.api.data.Group
 import com.example.weshussy.components.BalanceCard
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.HomeViewModel
+import kotlinx.coroutines.launch
 
 class HomeActivity : ComponentActivity() {
+    val viewModel =  HomeViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeShussyTheme {
-                HomeView()
+                HomeView(viewModel = viewModel)
             }
         }
     }
 }
 
 @Composable
-fun HomeView() {
+fun HomeView(viewModel: HomeViewModel) {
     var showDialog by remember { mutableStateOf(false) }
     var showSnackbar by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+    val groups = mutableListOf<Group>()
+    val coroutineScope = rememberCoroutineScope()
 
+    coroutineScope.launch {
+        val groupsData = viewModel.getGroupsForUser()
+        groups.addAll(groupsData)
+        println(groupsData)
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -91,7 +102,9 @@ fun HomeView() {
                 )
                 Spacer(modifier = Modifier.height(32.dp))
 
-                Column(modifier = Modifier.fillMaxHeight(0.5f).verticalScroll(rememberScrollState())) {
+                Column(modifier = Modifier
+                    .fillMaxHeight(0.5f)
+                    .verticalScroll(rememberScrollState())) {
                     BalanceCard(
                         groupName = "Group 1",
                         balance = "$150",

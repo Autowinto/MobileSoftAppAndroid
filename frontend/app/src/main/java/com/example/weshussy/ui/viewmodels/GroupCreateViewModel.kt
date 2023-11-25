@@ -21,6 +21,7 @@ class GroupCreateViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(GroupCreateUiState())
     val uiState: StateFlow<GroupCreateUiState> = _uiState.asStateFlow()
     suspend fun createGroup(name: String, userId: String) {
+        println("Test")
         RetrofitClient().groupApi.createGroup(GroupApi.GroupCreateRequestBody(name, userId))
     }
 }

@@ -20,13 +20,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.RegisterViewModel
+import kotlinx.coroutines.launch
 
 class RegisterActivity : ComponentActivity() {
+    val viewModel = RegisterViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeShussyTheme {
-                RegisterContent()
+                RegisterScreen(viewModel = viewModel)
             }
         }
     }
@@ -34,8 +37,9 @@ class RegisterActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterContent() {
+fun RegisterScreen(viewModel: RegisterViewModel) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
@@ -73,7 +77,7 @@ fun RegisterContent() {
                 label = { Text("First Name") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = {/* Handle next action */})
+                keyboardActions = KeyboardActions(onNext = {/* Handle next action */ })
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
@@ -82,7 +86,7 @@ fun RegisterContent() {
                 label = { Text("Last Name") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = {/* Handle next action */})
+                keyboardActions = KeyboardActions(onNext = {/* Handle next action */ })
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
@@ -91,7 +95,7 @@ fun RegisterContent() {
                 label = { Text("Phone Number") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = {/* Handle next action */})
+                keyboardActions = KeyboardActions(onNext = {/* Handle next action */ })
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
@@ -100,7 +104,7 @@ fun RegisterContent() {
                 label = { Text("Email") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = {/* Handle next action */})
+                keyboardActions = KeyboardActions(onNext = {/* Handle next action */ })
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
@@ -110,12 +114,21 @@ fun RegisterContent() {
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {/* Handle done action */})
+                keyboardActions = KeyboardActions(onDone = {/* Handle done action */ })
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 onClick = {
-                    // TODO: Implement registration logic and navigate to the next screen
+                    coroutineScope.launch {
+                        viewModel.createUser(
+                            firstName,
+                            lastName,
+                            email,
+                            phoneNumber,
+                            password,
+                            enableNotifications = true
+                        )
+                    }
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {

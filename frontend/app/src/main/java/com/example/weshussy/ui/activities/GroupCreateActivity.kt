@@ -112,6 +112,7 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
 
         Button(
             onClick = { coroutineScope.launch {
+                println("Coroutine triggered")
                 viewModel.createGroup(name = groupName.toString(), userId = "1")
             } },
             modifier = Modifier
