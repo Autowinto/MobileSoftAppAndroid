@@ -82,13 +82,12 @@ fun HomeView(viewModel: HomeViewModel) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Box {
+        Box(modifier = Modifier.padding(top = 16.dp)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(id = R.drawable.profile),
                     contentDescription = "Profile picture",
@@ -100,10 +99,8 @@ fun HomeView(viewModel: HomeViewModel) {
                         }
                         .align(Alignment.CenterHorizontally)
                 )
-                Spacer(modifier = Modifier.height(32.dp))
 
-                Column(modifier = Modifier
-                    .fillMaxHeight(0.5f)
+                Column(modifier = Modifier.weight(1f).padding(vertical = 16.dp)
                     .verticalScroll(rememberScrollState())) {
                     BalanceCard(
                         groupName = "Group 1",
@@ -140,19 +137,6 @@ fun HomeView(viewModel: HomeViewModel) {
                         }
                     )
                 }
-
-
-                if (showDialog) {
-                    NotificationDialog(
-                        onDismissRequest = { showDialog = false },
-                        onConfirmSend = {
-                            showDialog = false
-                            showSnackbar = true
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-
                 Button(
                     onClick = { context.startActivity(Intent(context, GroupCreateActivity::class.java)) },
                     modifier = Modifier
@@ -163,6 +147,17 @@ fun HomeView(viewModel: HomeViewModel) {
                     Text("Create new group")
                 }
 
+
+
+            }
+            if (showDialog) {
+                NotificationDialog(
+                    onDismissRequest = { showDialog = false },
+                    onConfirmSend = {
+                        showDialog = false
+                        showSnackbar = true
+                    }
+                )
             }
 
             SnackbarHost(
