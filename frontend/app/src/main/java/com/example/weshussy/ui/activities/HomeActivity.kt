@@ -9,11 +9,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
@@ -37,9 +40,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
-import com.example.weshussy.activities.GroupCreateActivity
+import com.example.weshussy.ui.activities.GroupCreateActivity
+import com.example.weshussy.api.data.Group
 import com.example.weshussy.components.BalanceCard
 import com.example.weshussy.ui.theme.WeShussyTheme
 
@@ -85,19 +91,43 @@ fun HomeView() {
                 )
                 Spacer(modifier = Modifier.height(32.dp))
 
-                BalanceCard(
-                    groupName = "Group 1",
-                    balance = "$150",
-                    total = "$1000",
+                Column(modifier = Modifier.fillMaxHeight(0.5f).verticalScroll(rememberScrollState())) {
+                    BalanceCard(
+                        groupName = "Group 1",
+                        balance = "$150",
+                        total = "$1000",
 
-                    onCardClick = {
-                        context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                    },
-                    onNotificationClick = {
-                        showDialog = true
-                    }
+                        onCardClick = {
+                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
+                        },
+                        onNotificationClick = {
+                            showDialog = true
+                        }
+                    )
+                    BalanceCard(
+                        groupName = "Group 2",
+                        balance = "$250",
+                        total = "$1000",
+                        onCardClick = {
+                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
+                        },
+                        onNotificationClick = {
+                            showDialog = true
+                        }
+                    )
+                    BalanceCard(
+                        groupName = "Group 2",
+                        balance = "$250",
+                        total = "$1000",
+                        onCardClick = {
+                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
+                        },
+                        onNotificationClick = {
+                            showDialog = true
+                        }
+                    )
+                }
 
-                )
 
                 if (showDialog) {
                     NotificationDialog(
@@ -108,19 +138,6 @@ fun HomeView() {
                         }
                     )
                 }
-
-                BalanceCard(
-                    groupName = "Group 2",
-                    balance = "$250",
-                    total = "$1000",
-                    onCardClick = {
-                        context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                    },
-                    onNotificationClick = {
-                        showDialog = true
-                    }
-                )
-
                 Spacer(modifier = Modifier.weight(1f))
 
                 Button(
@@ -170,4 +187,9 @@ fun NotificationDialog(onDismissRequest: () -> Unit, onConfirmSend: () -> Unit) 
             }
         }
     )
+}
+
+@Composable
+fun GroupsList(groups: List<Group>) {
+
 }

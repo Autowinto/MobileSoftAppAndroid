@@ -1,4 +1,4 @@
-package com.example.weshussy.activities
+package com.example.weshussy.ui.activities
 
 import TopNavBar
 import android.content.Intent
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.weshussy.ui.activities.HomeActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.GroupCreateViewModel
-import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
+import kotlinx.coroutines.launch
 
 class GroupCreateActivity : ComponentActivity() {
     private val viewModel = GroupCreateViewModel()
@@ -41,6 +41,7 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
     val groupDescription = remember { mutableStateOf(TextFieldValue()) }
     val memberNameToAdd = remember { mutableStateOf(TextFieldValue()) }
     val groupMembers = remember { mutableStateListOf("member 1", "member 2") } // Example members
+    val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         val context = LocalContext.current // Obtain the context
@@ -110,7 +111,9 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { /* TODO: Save group settings */ },
+            onClick = { coroutineScope.launch {
+                viewModel.createGroup(name = groupName.toString(), userId = "1")
+            } },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)

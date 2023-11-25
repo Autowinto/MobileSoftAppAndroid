@@ -1,4 +1,4 @@
-package com.example.weshussy.activities
+package com.example.weshussy.ui.activities
 
 import TopNavBar
 import android.content.Intent

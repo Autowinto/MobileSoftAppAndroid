@@ -35,9 +35,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.weshussy.activities.ExpenseAddActivity
-import com.example.weshussy.activities.ExpenseDetailsActivity
-import com.example.weshussy.activities.GroupSettingsActivity
+import com.example.weshussy.ui.activities.ExpenseAddActivity
+import com.example.weshussy.ui.activities.ExpenseDetailsActivity
+import com.example.weshussy.ui.activities.GroupSettingsActivity
 import com.example.weshussy.components.BalanceCard
 import com.example.weshussy.ui.theme.WeShussyTheme
 
