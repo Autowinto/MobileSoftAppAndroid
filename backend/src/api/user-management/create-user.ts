@@ -15,7 +15,6 @@ export async function createUser(req: Request, res: Response) {
         return;
     }
     const hashedPassword = await hasher(user.password);
-    
 
     User.create({
         id: uid,
@@ -42,12 +41,13 @@ async function hasher(password: string) {
 }
 async function phoneEmailCheck(phoneNmb: string, email: string) {
     const existingUser = await User.findOne({
-        where:{ 
-            [Op.or]:[
-            {email: email },
-            {phoneNmb: phoneNmb}
-        ]
-    }});
+        where: {
+            [Op.or]: [
+                { email: email },
+                { phoneNmb: phoneNmb }
+            ]
+        }
+    });
     if (existingUser) {
         return true;
     }

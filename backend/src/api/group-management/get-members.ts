@@ -40,35 +40,23 @@ export async function getMembers(req: Request, res: Response) {
 }
 
 export function initGetMembers(app: Application, openApi: OpenApi) {
-    app.get('/members/', getMembers)
-
-    const commonProperties = {
-        id: Types.String({
-            description: "Group ID",
-            maxLength: 100,
-            required: true,
-        }),
-    };
+    app.get('/members', getMembers)
 
     openApi.addPath(
-        "/members/",
+        "/group/members",
         {
-            post: {
+            get: {
                 summary: "Get Members of Group",
                 description: "This operation gets all members of a group",
                 operationId: "get-getmembers-op",
                 requestSchema: {
                     headers: {
-                        id: Types.String({
+                        groupdId: Types.String({
                             description: "Group ID",
                             required: true,
                             example: "b710e129-4e2c-4448-b605-73b18d297bae",
                         }),
                     },
-                    body: Types.Object({
-                        description: "Group ID",
-                        properties: commonProperties,
-                    }),
                 },
                 tags: ["Group Operations"],
                 responses: {

@@ -6,31 +6,19 @@ import { v4 as uuidv4 } from 'uuid';
 export async function removeMember(req: Request, res: Response) {
 
     try {
-        const { group_name: groupName, user_id: userId } = req.body;
-        const groupId = uuidv4();
+        const { groupId, userId } = req.body;
 
-        if (groupName == null || userId == null) {
-            throw "Error creating group, no group name or user id was provided";
+        if (groupId == null || userId == null) {
+            throw "Error removing member, no group id or user id was provided";
         }
 
-        Group.create({
-            id: groupId,
-            name: groupName,
-            totalExpense: 0,
-            ownerId: userId
+        await UserGroup.destroy({
+            where: { groupId: groupId, userId: userId }
         }).catch((err) => {
             throw err
         })
 
-        UserGroup.create({
-            userId,
-            groupId: groupId,
-            expenses: []
-        }).catch((err) => {
-            throw err
-        })
-
-        res.status(201).send("Group created succesfully")
+        res.status(200).send("Member removed succesfully")
     } catch (error) {
         console.log(error)
         res.status(400).send(error)
@@ -39,15 +27,14 @@ export async function removeMember(req: Request, res: Response) {
 }
 
 export function initRemoveMember(app: Application, openApi: OpenApi) {
-    app.delete('/members/', removeMember)
+    app.delete('/members', removeMember)
 
     const commonProperties = {
-        group_name: Types.String({
-            description: "Group Name",
-            maxLength: 100,
+        groupdId: Types.String({
+            description: "Group ID",
             required: true,
         }),
-        user_id: Types.String({
+        userId: Types.String({
             description: "User ID",
             required: true,
         }),
@@ -55,33 +42,33 @@ export function initRemoveMember(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/create_group",
+        "/group/members",
         {
-            post: {
-                summary: "Create Group",
-                description: "This operation creates a new Group",
-                operationId: "post-Group-op",
+            delete: {
+                summary: "Remove Member from Group",
+                description: "This operation removes a member from a group",
+                operationId: "delete-removemember-op",
                 requestSchema: {
                     headers: {
-                        group_name: Types.String({
-                            description: "Name of Group",
+                        groupdId: Types.String({
+                            description: "Group ID, the group to remove the member from",
                             required: true,
-                            example: "Bjarkes gruppe",
+                            example: "b710e129-4e2c-4448-b605-73b18d297bae",
                         }),
-                        user_id: Types.Uuid({
-                            description: "User ID, the user creating the group",
+                        userId: Types.Uuid({
+                            description: "User ID, the user to remove from the group",
                             required: true,
                             example: "b710e129-4e2c-4448-b605-73b18d297bae",
                         }),
                     },
                     body: Types.Object({
-                        description: "Group data to create",
+                        description: "Group ID and User ID",
                         properties: commonProperties,
                     }),
                 },
                 tags: ["Group Operations"],
                 responses: {
-                    201: textPlain("Created"),
+                    200: textPlain("OK"),
                     400: textPlain("Bad Request"),
                     401: textPlain("Unauthorized"),
                 },

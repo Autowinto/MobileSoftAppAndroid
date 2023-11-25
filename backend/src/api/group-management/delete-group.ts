@@ -1,7 +1,6 @@
 import { Application, Request, Response } from 'express';
-import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import { Group, UserGroup } from '../../groups/setup-groups';
-import { v4 as uuidv4 } from 'uuid';
+import { OpenApi, Types, textPlain } from 'ts-openapi';
+import { Group } from '../../groups/setup-groups';
 
 export async function deleteGroup(req: Request, res: Response) {
 
@@ -54,9 +53,9 @@ export function initDeleteGroup(app: Application, openApi: OpenApi) {
     };
 
     openApi.addPath(
-        "/",
+        "/group",
         {
-            post: {
+            delete: {
                 summary: "Delete group",
                 description: "This operation deletes a group",
                 operationId: "post-deletegroup-op",
