@@ -31,8 +31,12 @@ interface UserApi {
     @PUT("users/")
     suspend fun updateUser(@Body user: User): Response<Object>
 
+    data class UserLoginRequestBody (
+        val email: String,
+        val password: String
+    )
     @POST("users/login")
-    suspend fun loginUser(@Body user: User): Response<Object>
+    suspend fun loginUser(@Body requestBody: UserLoginRequestBody): Response<User>
 
     @GET("users/{id}/groups")
     suspend fun getGroupsByUser(@Path("id") userId: String): Response<List<Group>>
