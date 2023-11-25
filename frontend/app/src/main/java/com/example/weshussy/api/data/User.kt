@@ -9,5 +9,7 @@ data class User(
     @JsonProperty("email") val email: String,
     @JsonProperty("phoneNmb") val phoneNmb: String,
     @JsonProperty("password") val password: String,
-    @JsonProperty("enableNotifs") val enableNotifs: Boolean
+    @JsonProperty("enableNotifs") val enableNotifs: Boolean,
+    @JsonProperty("createdAt") val createdAt: String,
+    @JsonProperty("updatedAt") val updatedAt: String,
 )

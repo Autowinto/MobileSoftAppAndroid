@@ -18,7 +18,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
+import com.example.weshussy.api.RetrofitClient
+import com.example.weshussy.api.interfaces.UserApi.UserLoginRequestBody
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
+import kotlinx.coroutines.launch
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +34,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginView()
+                    LoginScreen()
                 }
             }
         }
@@ -40,7 +44,8 @@ class LoginActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginView() {
+fun LoginScreen() {
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -86,10 +91,22 @@ fun LoginView() {
 
         // Login Button
         Button(onClick = {
-            Intent(
-                context,
-                HomeActivity::class.java
-            ).also { context.startActivity(it) }
+            coroutineScope.launch {
+                    val response = RetrofitClient().userApi.loginUser(UserLoginRequestBody(email, password))
+                    if (response.isSuccessful) {
+                        println("USER HERE")
+                        println(response.body())
+                        UserSession.setUser(response.body()!!)
+                        Intent(
+                            context,
+                            HomeActivity::class.java
+                        ).also { context.startActivity(it) }
+                    } else {
+                        println(response.errorBody())
+                    }
+
+            }
+
         }) {
             Text(text = "Login")
         }

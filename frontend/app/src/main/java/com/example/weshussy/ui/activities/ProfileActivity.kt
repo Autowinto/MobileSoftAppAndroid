@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
 
 class ProfileActivity : ComponentActivity() {
@@ -36,12 +37,18 @@ class ProfileActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileSettingsScreen() {
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var notificationsEnabled by remember { mutableStateOf(true) }
+
+    val user = UserSession.getUser() ?: return
+
+    // Realistically, this should always be true
+
+    var firstName by remember { mutableStateOf(user.firstName) }
+    var lastName by remember { mutableStateOf(user.lastName) }
+    var phoneNumber by remember { mutableStateOf(user.phoneNmb) }
+    var email by remember { mutableStateOf(user.email) }
+    var notificationsEnabled by remember { mutableStateOf(user.enableNotifs) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopNavBar(
