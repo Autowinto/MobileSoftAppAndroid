@@ -2,6 +2,7 @@ package com.example.weshussy.api
 
 import com.example.weshussy.api.interfaces.ExpenseApi
 import com.example.weshussy.api.interfaces.GroupApi
+import com.example.weshussy.api.interfaces.UserApi
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
@@ -15,6 +16,9 @@ class RetrofitClient {
     }
     val groupApi: GroupApi by lazy {
         retrofit.create(GroupApi::class.java)
+    }
+    val userApi: UserApi by lazy {
+        retrofit.create(UserApi::class.java)
     }
 }
 
