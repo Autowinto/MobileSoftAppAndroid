@@ -32,6 +32,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,6 +49,7 @@ import com.example.weshussy.R
 import com.example.weshussy.ui.activities.GroupCreateActivity
 import com.example.weshussy.api.data.Group
 import com.example.weshussy.components.BalanceCard
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.HomeViewModel
 import kotlinx.coroutines.launch
@@ -70,12 +72,15 @@ fun HomeView(viewModel: HomeViewModel) {
     var showSnackbar by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val groups = mutableListOf<Group>()
+    val groups  = remember { mutableStateListOf<Group>() }
     val coroutineScope = rememberCoroutineScope()
+    val currentUser = UserSession.getUser()?: return
+
 
     coroutineScope.launch {
-        val groupsData = viewModel.getGroupsForUser()
+        val groupsData = viewModel.getGroupsForUser(currentUser.id)
         groups.addAll(groupsData)
+        println("GROUPS HERE")
         println(groupsData)
     }
     Surface(
@@ -100,42 +105,26 @@ fun HomeView(viewModel: HomeViewModel) {
                         .align(Alignment.CenterHorizontally)
                 )
 
-                Column(modifier = Modifier.weight(1f).padding(vertical = 16.dp)
+                Column(modifier = Modifier
+                    .weight(1f)
+                    .padding(vertical = 16.dp)
                     .verticalScroll(rememberScrollState())) {
-                    BalanceCard(
-                        groupName = "Group 1",
-                        balance = "$150",
-                        total = "$1000",
+                    if (groups.size > 0) {
 
-                        onCardClick = {
-                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                        },
-                        onNotificationClick = {
-                            showDialog = true
-                        }
-                    )
-                    BalanceCard(
-                        groupName = "Group 2",
-                        balance = "$250",
-                        total = "$1000",
-                        onCardClick = {
-                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                        },
-                        onNotificationClick = {
-                            showDialog = true
-                        }
-                    )
-                    BalanceCard(
-                        groupName = "Group 2",
-                        balance = "$250",
-                        total = "$1000",
-                        onCardClick = {
-                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                        },
-                        onNotificationClick = {
-                            showDialog = true
-                        }
-                    )
+                    groups.forEach { group ->
+                        BalanceCard(
+                            groupName = group.name,
+                            balance = "$200",
+                            total = "$" + group.totalExpenses.toString(),
+                            onCardClick = {
+                                context.startActivity(Intent(context, GroupInfoActivity::class.java))
+                            },
+                            onNotificationClick = {
+                                showDialog = true
+                            }
+                        )
+                    }
+                    }
                 }
                 Button(
                     onClick = { context.startActivity(Intent(context, GroupCreateActivity::class.java)) },
