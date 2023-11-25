@@ -51,7 +51,6 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        // TopNavBar is your custom composable function for the top navigation bar
         TopNavBar(
             title = "Register",
             onBackClick = {
@@ -67,6 +66,7 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
+
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             //... your registration UI elements go here

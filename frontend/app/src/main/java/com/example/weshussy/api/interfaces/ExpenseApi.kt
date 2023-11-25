@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface ExpenseApi {
     @POST("expense/")
-    fun createExpense(): Response<Object>
+    suspend fun createExpense(): Response<Object>
 }

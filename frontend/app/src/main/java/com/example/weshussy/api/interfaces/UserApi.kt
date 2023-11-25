@@ -12,10 +12,10 @@ import retrofit2.http.Query
 
 interface UserApi {
     @GET("users")
-    fun getUser(@Query("userId") userId: String): Response<User>
+    suspend fun getUser(@Query("userId") userId: String): Response<User>
 
     @GET("users/")
-    fun getAllUsers(): Response<List<User>>
+    suspend fun getAllUsers(): Response<List<User>>
 
     data class CreateUserRequestBody (
         val firstName: String,
@@ -29,10 +29,10 @@ interface UserApi {
     suspend fun createUser(@Body requestBody: CreateUserRequestBody): Response<String>
 
     @PUT("users/")
-    fun updateUser(@Body user: User): Response<Object>
+    suspend fun updateUser(@Body user: User): Response<Object>
 
     @POST("users/login")
-    fun loginUser(@Body user: User): Response<Object>
+    suspend fun loginUser(@Body user: User): Response<Object>
 
     @GET("users/{id}/groups")
     suspend fun getGroupsByUser(@Path("id") userId: String): Response<List<Group>>
