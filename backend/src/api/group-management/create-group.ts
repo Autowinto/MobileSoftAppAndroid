@@ -1,6 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
-import { Group, UserGroup } from '../../groups/setup-groups';
+import { Group, UserGroup, User } from '../../groups/setup-groups';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function createGroup(req: Request, res: Response) {
@@ -11,6 +11,12 @@ export async function createGroup(req: Request, res: Response) {
 
         if (name == null || userId == null) {
             throw "Error creating group, no group name or user id was provided";
+        }
+
+        const user = await User.findByPk(userId);
+
+        if (user == null) {
+            throw "Error creating group, user does not exist";
         }
 
         Group.create({

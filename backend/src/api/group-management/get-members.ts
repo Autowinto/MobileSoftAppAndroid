@@ -11,20 +11,20 @@ export type Member = {
 export async function getMembers(req: Request, res: Response) {
 
     try {
-        const { id } = req.body;
+        const { groupId } = req.body;
 
-        if (id == null) {
+        if (groupId == null) {
             throw "Error creating group, no group name or user id was provided";
         }
 
         const members = await UserGroup.findAll({
-            where: { groupId: id }
+            where: { groupId: groupId }
         })
 
         const promiseArray = members.map(async (member) => {
             return new Promise(async (resolve, reject) => {
                 const user = await User.findByPk(member.dataValues.userId);
-                user.dataValues.password = "<hidden>"
+                delete user.dataValues.password;
                 resolve(user)
             })
         })
