@@ -1,23 +1,11 @@
-import express from "express";
-import dotenv from 'dotenv';
-import { getUser, initGetUser } from "./api/user-management/getUser";
-import * as managementRouter from './api/user-management/router';
-import { initCreateUser } from "./api/user-management/createUser";
-import { initOpenApi, openApiInstance } from "./openapi";
+import { initialize } from "./initialize";
 
-const app = express();
-dotenv.config();
 
-app.use(express.json());
+export async function main() {
+    await initialize();
 
-app.use('/api', managementRouter.default);
+    const { appInit } = await import('./app-init');
+    await appInit();
+}
 
-initCreateUser(app, openApiInstance);
-initGetUser(app, openApiInstance);
-initOpenApi(app, openApiInstance);
-
-// Testing
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
-    console.log('To see Api documentation go to', `http://${process.env.HOST}:${process.env.PORT}/docs`)
-});
+main();
