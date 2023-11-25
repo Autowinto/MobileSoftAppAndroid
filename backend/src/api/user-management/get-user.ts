@@ -16,9 +16,13 @@ export async function getUser(req: Request, res: Response) {
 };
 
 export async function getAllUsers(req: Request, res: Response) {
+    try {
     const users = User.findAll().then((users) => {
         res.json(users);
     })
+} catch (error) {
+    throw error;
+}
 };
 
 export function initGetAllUser(app: Application, openApi: OpenApi) {
