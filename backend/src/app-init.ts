@@ -17,6 +17,7 @@ import { initEditExpense } from "./api/expense-management/edit-expense";
 import { initDeleteExpense } from "./api/expense-management/delete-expense";
 import { initGetExpenseDetails } from "./api/expense-management/show-expense";
 import { initGetExpenseHistory } from "./api/expense-management/history-expense";
+import { initGetAllExpenses } from "./api/expense-management/get-expenses";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -52,6 +53,7 @@ export async function appInit() {
     initDeleteExpense(app, openApiInstance);
     initGetExpenseDetails(app, openApiInstance);
     initGetExpenseHistory(app, openApiInstance);
+    initGetAllExpenses(app, openApiInstance);
     
 
     // OpenApi

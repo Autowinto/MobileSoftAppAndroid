@@ -19,7 +19,7 @@ export async function showExpense(req: Request, res: Response){
         }
     }catch(error){
         console.log(error);
-        res.status(400).send("Error etrieving expense: " + error);
+        res.status(400).send("Error retrieving expense: " + error);
     }
 } 
 
