@@ -70,13 +70,12 @@ fun HomeView(viewModel: HomeViewModel) {
     var showSnackbar by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val groups = mutableListOf<Group>()
+    var groups by remember { mutableStateOf<List<Group>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
 
-    coroutineScope.launch {
-        val groupsData = viewModel.getGroupsForUser()
-        groups.addAll(groupsData)
-        println(groupsData)
+    LaunchedEffect(key1 = Unit) {
+        groups = viewModel.getGroupsForUser("123")
+        println(groups)
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -105,22 +104,20 @@ fun HomeView(viewModel: HomeViewModel) {
                 Column(modifier = Modifier
                     .fillMaxHeight(0.5f)
                     .verticalScroll(rememberScrollState())) {
+                    println(groups+"DET HER LORT")
+                    for (group in groups) {
+                        BalanceCard(
+                            groupName = group.name,
+                            balance = "200",
+                            total = group.totalExpenses.toString(),
+                            onCardClick = { context.startActivity(Intent(context, GroupInfoActivity::class.java))},
+                            onNotificationClick = { showDialog = true})
+                    }
                     BalanceCard(
                         groupName = "Group 1",
                         balance = "$150",
                         total = "$1000",
 
-                        onCardClick = {
-                            context.startActivity(Intent(context, GroupInfoActivity::class.java))
-                        },
-                        onNotificationClick = {
-                            showDialog = true
-                        }
-                    )
-                    BalanceCard(
-                        groupName = "Group 2",
-                        balance = "$250",
-                        total = "$1000",
                         onCardClick = {
                             context.startActivity(Intent(context, GroupInfoActivity::class.java))
                         },
@@ -177,7 +174,7 @@ fun HomeView(viewModel: HomeViewModel) {
             snackbarHostState.showSnackbar(
                 message = "Notification sent!",
                 actionLabel = "OK",
-                duration = SnackbarDuration.Short
+                duration = SnackbarDuration.Long
             )
             showSnackbar = false
         }
