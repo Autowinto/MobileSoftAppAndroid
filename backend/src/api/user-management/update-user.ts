@@ -20,21 +20,25 @@ export async function updateUser(req: Request, res: Response) {
 }
 
 async function putUser(user: UserType.user, res: Response) {
-    User.update({
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        password: user.password,
-        phoneNmb: user.phoneNmb,
-        enableNotifs: user.enableNotifs,
-        updated_at: moment.now()
-    },
-        { where: { id: user.id } }
-    ).then(() => {
-        res.status(200).send('User updated succesfully')
-    }).catch(() => {
-        res.status(400).send('User could not be updated')
-    })
+    try {
+        User.update({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            password: user.password,
+            phoneNmb: user.phoneNmb,
+            enableNotifs: user.enableNotifs,
+            updated_at: moment.now()
+        },
+            { where: { id: user.id } }
+        ).then(() => {
+            res.status(200).send('User updated succesfully')
+        }).catch(() => {
+            res.status(400).send('User could not be updated')
+        })
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
 }
 export async function initUpdateUser(app: Application, openApi: OpenApi) {
     app.post('/', updateUser)
