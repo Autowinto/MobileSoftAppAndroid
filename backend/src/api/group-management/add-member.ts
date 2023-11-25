@@ -45,7 +45,7 @@ export function initAddMember(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/group/members",
+        "/groups/members",
         {
             post: {
                 summary: "Add Member to Group",

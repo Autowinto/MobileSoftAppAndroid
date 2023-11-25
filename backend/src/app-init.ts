@@ -24,8 +24,8 @@ export async function appInit() {
     app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
     // Set routes
-    app.use('/api/user', userRouter.default);
-    app.use('/api/group', groupRouter.default)
+    app.use('/api/users', userRouter.default);
+    app.use('/api/groups', groupRouter.default)
 
     // User Management
     initCreateUser(app, openApiInstance);

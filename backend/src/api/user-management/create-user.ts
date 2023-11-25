@@ -72,7 +72,7 @@ export function initCreateUser(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/",
+        "/users",
         {
             post: {
                 summary: "Create User",

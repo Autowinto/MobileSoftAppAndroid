@@ -4,21 +4,18 @@ import { Group, User, UserGroup } from '../../groups/setup-groups';
 import { v4 as uuidv4 } from 'uuid';
 import { Model } from 'sequelize';
 
-export type Member = {
-    userId: string,
-    groupId: string,
-}
+
 export async function getMembers(req: Request, res: Response) {
 
     try {
-        const { groupId } = req.body;
+        const { id } = req.params;
 
-        if (groupId == null) {
+        if (id == null) {
             throw "Error creating group, no group name or user id was provided";
         }
 
         const members = await UserGroup.findAll({
-            where: { groupId: groupId }
+            where: { groupId: id }
         })
 
         const promiseArray = members.map(async (member) => {
@@ -40,10 +37,10 @@ export async function getMembers(req: Request, res: Response) {
 }
 
 export function initGetMembers(app: Application, openApi: OpenApi) {
-    app.get('/members', getMembers)
+    app.get('/:id/members', getMembers)
 
     openApi.addPath(
-        "/group/members",
+        "/groups/{id}/members",
         {
             get: {
                 summary: "Get Members of Group",

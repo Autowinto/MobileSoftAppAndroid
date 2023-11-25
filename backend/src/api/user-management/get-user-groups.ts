@@ -1,19 +1,28 @@
 import { Application, Request, Response } from 'express';
 import { OpenApi, Types } from 'ts-openapi';
-import { User, UserGroup } from '../../groups/setup-groups';
+import { User, UserGroup, Group } from '../../groups/setup-groups';
 
 export async function getGroupsByUser(req: Request, res: Response) {
     try {
         const id = req.params.id;
-
+        console.log(id);
         if (id == null) {
             throw "Error getting user, no user id was provided";
         }
 
-        UserGroup.findAll({ where: { userId: id } }).then((groups) => {
-            res.send(groups);
+        const userGroups = await UserGroup.findAll({ where: { userId: id } });
+
+        const promiseArray = userGroups.map(async (group) => {
+            return new Promise(async (resolve, reject) => {
+                const groupData = await Group.findByPk(group.dataValues.groupId);
+                resolve(groupData);
+            });
         });
 
+
+        await Promise.all(promiseArray).then((values) => {
+            res.status(200).send(values);
+        });
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
@@ -21,7 +30,7 @@ export async function getGroupsByUser(req: Request, res: Response) {
 };
 
 export function initGetGroupsByUser(app: Application, openApi: OpenApi) {
-    app.get('/users/:id/groups', getGroupsByUser);
+    app.get('/:id/groups', getGroupsByUser);
 
     openApi.addPath(
         '/users/:id/groups',
@@ -37,7 +46,7 @@ export function initGetGroupsByUser(app: Application, openApi: OpenApi) {
                             required: true,
                             example: 'b710e129-4e2c-4448-b605-73b18d297bae',
                         })
-                    }
+                    },
                 },
                 tags: ['User Operations'],
                 responses: {

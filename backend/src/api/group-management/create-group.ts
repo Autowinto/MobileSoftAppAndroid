@@ -61,7 +61,7 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/group",
+        "/groups",
         {
             post: {
                 summary: "Create Group",

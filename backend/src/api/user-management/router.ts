@@ -7,11 +7,11 @@ import { getGroupsByUser } from "./get-user-groups";
 
 const router = express.Router();
 
-router.get('/user', getUser);
-router.get('/users', getAllUsers);
+router.get('/:id', getUser);
+router.get('/', getAllUsers);
 router.post('/', createUser);
 router.put('/', updateUser);
 router.post('/login', login);
-router.get('user/:id/groups', getGroupsByUser)
+router.get('/:id/groups', getGroupsByUser)
 
 export default router;
