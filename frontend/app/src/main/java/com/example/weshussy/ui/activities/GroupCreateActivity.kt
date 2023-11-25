@@ -19,13 +19,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.ui.activities.HomeActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.GroupCreateViewModel
+import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 
 class GroupCreateActivity : ComponentActivity() {
+    private val viewModel = GroupCreateViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeShussyTheme {
-                GroupCreateScreen()
+                GroupCreateScreen(viewModel = viewModel)
             }
         }
     }
@@ -33,7 +36,7 @@ class GroupCreateActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupCreateScreen() {
+fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
     val groupName = remember { mutableStateOf(TextFieldValue()) }
     val groupDescription = remember { mutableStateOf(TextFieldValue()) }
     val memberNameToAdd = remember { mutableStateOf(TextFieldValue()) }
