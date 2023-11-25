@@ -20,8 +20,8 @@ export async function createUser(req: Request, res: Response) {
 console.log(user)
     User.create({
         id: uid,
-        first_name: user.firstName,
-        last_name: user.lastName,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         phoneNmb: user.phoneNmb,
         password: hashedPassword,

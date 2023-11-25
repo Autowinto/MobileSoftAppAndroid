@@ -22,8 +22,8 @@ export async function updateUser(req: Request, res: Response) {
 async function putUser(user: UserType.user, res: Response) {
     try {
         User.update({
-            first_name: user.first_name,
-            last_name: user.last_name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             password: user.password,
             phoneNmb: user.phoneNmb,
