@@ -29,7 +29,7 @@ export async function addMember(req: Request, res: Response) {
 }
 
 export function initAddMember(app: Application, openApi: OpenApi) {
-    app.post('/members/', addMember);
+    app.post('/members', addMember);
 
     const commonProperties = {
         userId: Types.String({
@@ -45,7 +45,7 @@ export function initAddMember(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/members/",
+        "/groups/members",
         {
             post: {
                 summary: "Add Member to Group",
