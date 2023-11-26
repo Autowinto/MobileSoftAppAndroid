@@ -28,6 +28,7 @@ export async function initialize() {
             port: port,
             dialect: "mysql",
         })
+
         resolve("Database initialized!");
     })
 }

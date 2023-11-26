@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 export async function createGroup(req: Request, res: Response) {
 
     try {
-        const { name, userId } = req.body;
+        const { name, userId, description} = req.body;
         const groupId = uuidv4();
 
         if (name == null || userId == null) {
@@ -16,6 +16,7 @@ export async function createGroup(req: Request, res: Response) {
         Group.create({
             id: groupId,
             name,
+            description,
             totalExpense: 0,
             ownerId: userId
         }).catch((err) => {
@@ -68,6 +69,7 @@ export function initCreateGroup(app: Application, openApi: OpenApi) {
                             required: true,
                             example: "Bjarkes gruppe",
                         }),
+                        
                         userId: Types.Uuid({
                             description: "User ID, the user creating the group",
                             required: true,
