@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GroupApi {
@@ -16,6 +17,9 @@ interface GroupApi {
     )
     @POST("groups/")
     suspend fun createGroup(@Body requestBody: GroupCreateRequestBody): Response<Object>
+
+    @GET("groups/{id}")
+    suspend fun getGroupById(@Path("id") id: String): Response<Group>
 
     data class GroupDeleteRequestBody (
         val id: String

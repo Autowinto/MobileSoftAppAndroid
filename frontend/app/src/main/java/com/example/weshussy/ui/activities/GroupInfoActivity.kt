@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
+import com.example.weshussy.api.RetrofitClient
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 import kotlinx.coroutines.launch
@@ -40,6 +41,10 @@ class GroupInfoActivity : ComponentActivity() {
 
 @Composable
 fun GroupScreen(viewModel: GroupInfoViewModel) {
+    val coroutineScope = rememberCoroutineScope()
 
+    coroutineScope.launch { val response = RetrofitClient().groupApi.getGroup(groupId) if (response.isSuccesful {
+        doStuff()
+        })}
     Text(text = "Test")
 }
