@@ -15,7 +15,7 @@ interface GroupApi {
         val userId: String
     )
     @POST("groups/")
-    suspend fun createGroup(@Body requestBody: GroupCreateRequestBody): Response<String>
+    suspend fun createGroup(@Body requestBody: GroupCreateRequestBody): Response<Object>
 
     data class GroupDeleteRequestBody (
         val id: String

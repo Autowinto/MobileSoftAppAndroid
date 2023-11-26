@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.api.RetrofitClient
+import com.example.weshussy.api.interfaces.GroupApi.GroupCreateRequestBody
 import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.activities.HomeActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
@@ -115,7 +117,13 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
         Button(
             onClick = { coroutineScope.launch {
                 println("Coroutine triggered")
-                viewModel.createGroup(name = groupName.value, userId = currentUser.id)
+                val response = RetrofitClient().groupApi.createGroup(GroupCreateRequestBody(name = groupName.value, userId = currentUser.id))
+                if (response.isSuccessful) {
+                    Intent(
+                        context,
+                        HomeActivity::class.java
+                    ).also { context.startActivity(it) }
+                }
             } },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
