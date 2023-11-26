@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.activities.HomeActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.GroupCreateViewModel
@@ -42,6 +43,7 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
     val memberNameToAdd = remember { mutableStateOf(TextFieldValue()) }
     val groupMembers = remember { mutableStateListOf("member 1", "member 2") } // Example members
     val coroutineScope = rememberCoroutineScope()
+    val currentUser = UserSession.getUser()?: return
 
     Column(modifier = Modifier.fillMaxSize()) {
         val context = LocalContext.current // Obtain the context
@@ -113,7 +115,7 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
         Button(
             onClick = { coroutineScope.launch {
                 println("Coroutine triggered")
-                viewModel.createGroup(name = groupName.toString(), userId = "1")
+                viewModel.createGroup(name = groupName.value.text, userId = currentUser.id)
             } },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)

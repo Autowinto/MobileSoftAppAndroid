@@ -20,7 +20,7 @@ export async function addMember(req: Request, res: Response) {
             throw err
         });
 
-        res.status(201).send(user.dataValues.name + " was added to group: " + group.dataValues.name);
+        res.status(201).send(user.dataValues.firstName + " was added to group: " + group.dataValues.name);
     } catch (error) {
         console.log(error)
         res.status(400).send(error)

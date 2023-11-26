@@ -32,6 +32,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -71,26 +72,27 @@ fun HomeView(viewModel: HomeViewModel) {
     var showSnackbar by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
-    var groups by remember { mutableStateOf<List<Group>>(emptyList()) }
-    val user = UserSession.getUser() ?: return
-    val userId by remember { mutableStateOf(user.id)}
+    val groups  = remember { mutableStateListOf<Group>() }
+    val coroutineScope = rememberCoroutineScope()
+    val currentUser = UserSession.getUser()?: return
 
-    LaunchedEffect(key1 = Unit) {
 
-        groups = viewModel.getGroupsForUser(userId)
-        println(groups)
+    coroutineScope.launch {
+        val groupsData = viewModel.getGroupsForUser(currentUser.id)
+        groups.addAll(groupsData)
+        println("GROUPS HERE")
+        println(groupsData)
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Box {
+        Box(modifier = Modifier.padding(top = 16.dp)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(id = R.drawable.profile),
                     contentDescription = "Profile picture",
@@ -102,33 +104,28 @@ fun HomeView(viewModel: HomeViewModel) {
                         }
                         .align(Alignment.CenterHorizontally)
                 )
-                Spacer(modifier = Modifier.height(32.dp))
 
                 Column(modifier = Modifier
-                    .fillMaxHeight(0.5f)
+                    .weight(1f)
+                    .padding(vertical = 16.dp)
                     .verticalScroll(rememberScrollState())) {
-                    for (group in groups) {
+                    if (groups.size > 0) {
+
+                    groups.forEach { group ->
                         BalanceCard(
                             groupName = group.name,
-                            balance = "200",
-                            total = group.totalExpenses.toString(),
-                            onCardClick = { context.startActivity(Intent(context, GroupInfoActivity::class.java))},
-                            onNotificationClick = { showDialog = true})
+                            balance = "$200",
+                            total = "$" + group.totalExpenses.toString(),
+                            onCardClick = {
+                                context.startActivity(Intent(context, GroupInfoActivity::class.java))
+                            },
+                            onNotificationClick = {
+                                showDialog = true
+                            }
+                        )
+                    }
                     }
                 }
-
-
-                if (showDialog) {
-                    NotificationDialog(
-                        onDismissRequest = { showDialog = false },
-                        onConfirmSend = {
-                            showDialog = false
-                            showSnackbar = true
-                        }
-                    )
-                }
-                Spacer(modifier = Modifier.weight(1f))
-
                 Button(
                     onClick = { context.startActivity(Intent(context, GroupCreateActivity::class.java)) },
                     modifier = Modifier
@@ -139,6 +136,17 @@ fun HomeView(viewModel: HomeViewModel) {
                     Text("Create new group")
                 }
 
+
+
+            }
+            if (showDialog) {
+                NotificationDialog(
+                    onDismissRequest = { showDialog = false },
+                    onConfirmSend = {
+                        showDialog = false
+                        showSnackbar = true
+                    }
+                )
             }
 
             SnackbarHost(
