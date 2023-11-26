@@ -13,7 +13,8 @@ export async function updateUser(req: Request, res: Response) {
     console.log(user);
     User.findOne({ where: { id: user.id } }).then((response) => {
         if (response) {
-            putUser(user, res);
+            putUser(user, res)
+            res.status(200).send(response);
         } else {
             res.status(400).send('User does not exist');
         }
@@ -31,9 +32,7 @@ async function putUser(user: UserType.user, res: Response) {
             updated_at: moment.now()
         },
             { where: { id: user.id } }
-        ).then(() => {
-            res.status(200).send('User updated succesfully')
-        }).catch(() => {
+        ).catch(() => {
             res.status(400).send('User could not be updated')
         })
     } catch (err) {
@@ -44,17 +43,24 @@ export async function initUpdateUser(app: Application, openApi: OpenApi) {
     app.post('/', updateUser)
 
     const commonProperties = {
-        name: Types.String({
-            description: "Name",
+        firstName: Types.String({
+            description: "First name",
+            maxLength: 100,
+        }),
+        lastName: Types.String({
+            description: "Last name",
+            maxLength: 100,
+        }),
+        phoneNmb: Types.String({
+            description: "Phone number",
             maxLength: 100,
         }),
         email: Types.String({
             description: "Email",
         }),
-        password: Types.String({
-            description: "Password",
-            maxLength: 30,
-        })
+        enableNotifs: Types.Boolean({
+            description: "Enable notifications",
+        }),
     };
 
 

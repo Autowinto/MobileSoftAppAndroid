@@ -27,7 +27,7 @@ console.log(user)
         password: hashedPassword,
         enableNotifs: user.enableNotifs,
     }).then(() => {
-        res.status(200).send("User added successfully");
+        res.status(201).send("User created successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -66,14 +66,38 @@ export function initCreateUser(app: Application, openApi: OpenApi) {
   app.post("/", createUser);
 
   const commonProperties = {
-    name: Types.String({
-      description: "User name",
+    id: Types.String({
+      description: "Users id",
       maxLength: 100,
       required: true,
     }),
-    type: Types.StringEnum({
-      description: "User type",
-      values: ["Platinum", "Gold", "Silver", "Bronze"],
+    firstName: Types.String({
+      description: "Users first name",
+      maxLength: 100,
+      required: true,
+    }),
+    lastName: Types.String({
+      description: "Users last name",
+      maxLength: 100,
+      required: true,
+    }),
+    phoneNmb: Types.String({
+      description: "Users phone number",
+      maxLength: 100,
+      required: true,
+    }),
+    email: Types.String({
+      description: "Users email",
+      maxLength: 100,
+      required: true,
+    }),
+    password: Types.String({
+      description: "Users password",
+      maxLength: 100,
+      required: true,
+    }),
+    enableNotifs: Types.Boolean({
+      description: "Users notification settings",
       required: true,
     }),
   };
@@ -86,13 +110,6 @@ export function initCreateUser(app: Application, openApi: OpenApi) {
                 description: "This operation creates a new User",
                 operationId: "post-User-op",
                 requestSchema: {
-                    headers: {
-                        requestId: Types.Uuid({
-                            description: "Request ID",
-                            required: false,
-                            example: "b710e129-4e2c-4448-b605-73b18d297bae",
-                        }),
-                    },
                     body: Types.Object({
                         description: "User data to create",
                         properties: commonProperties,
@@ -102,7 +119,6 @@ export function initCreateUser(app: Application, openApi: OpenApi) {
                 responses: {
                     201: textPlain("Created"),
                     400: textPlain("Bad Request"),
-                    401: textPlain("Unauthorized"),
                 },
             },
       },

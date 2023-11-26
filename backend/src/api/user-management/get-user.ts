@@ -7,7 +7,13 @@ export async function getUser(req: Request, res: Response) {
         const id = req.params.id;
         console.log(id);
         User.findOne({ where: { id: id } }).then((user) => {
-            res.send(user);
+            if (user) {
+                res.status(200).send(user);
+            }
+            else
+            res.status(404).send('User does not exist');
+            return;
+            
         })
     } catch (error) {
         console.log(error);
@@ -17,8 +23,12 @@ export async function getUser(req: Request, res: Response) {
 
 export async function getAllUsers(req: Request, res: Response) {
     try {
-    const users = User.findAll().then((users) => {
-        res.json(users);
+    User.findAll().then((users) => {
+        if(users) {
+        res.status(200).send(users);
+        }
+        else
+        res.status(404).send('No users found');
     })
 } catch (error) {
     throw error;
@@ -57,19 +67,58 @@ export function initGetAllUser(app: Application, openApi: OpenApi) {
                                         type: 'object',
                                         description: 'User',
                                         properties: {
-                                            name: {
+                                            id: {
                                                 type: 'string',
-                                                description: 'User name',
+                                                description: "Users id",
                                                 maxLength: 100,
-                                            },
-                                            type: {
-                                                type: 'array',
-                                                description: 'User type',
-                                                example: ['Platinum', 'Gold', 'Silver', 'Bronze'],
-                                            }
+                                              },
+                                              firstName: {
+                                                type: 'string',
+                                                description: "Users first name",
+                                                maxLength: 100,
+                                                
+                                              },
+                                              lastName: {
+                                                type: 'string',
+                                                description: "Users last name",
+                                                maxLength: 100,
+                                                
+                                              },
+                                              phoneNmb:{
+                                                type: 'string',
+                                                description: "Users phone number",
+                                                maxLength: 100,
+                                                
+                                              },
+                                              email: {
+                                                type: 'string',
+                                                description: "Users email",
+                                                maxLength: 100,
+                                                
+                                              },
+                                              password: {
+                                                type: 'string',
+                                                description: "Users password",
+                                                maxLength: 100,
+                                              },
+                                              enableNotifs: {
+                                                type: 'boolean',
+                                                description: "Users notification settings", 
+                                              },
                                         },
 
                                     }
+                                }
+                            }
+                        }
+                    },
+                    404: {
+                        description: 'Not Found',
+                        content: {
+                            'text/plain': {
+                                schema: {
+                                    type: 'array',
+                                    description: 'No users found',
                                 }
                             }
                         }
@@ -82,22 +131,15 @@ export function initGetAllUser(app: Application, openApi: OpenApi) {
 }
 
 export function initGetUser(app: Application, openApi: OpenApi) {
-    app.get('/:id/user', getUser);
+    app.get('/:id/users', getUser);
     openApi.addPath(
-        '/users/{id}/user',
+        '/api/users/:id',
         {
             get: {
                 summary: 'Get User',
                 description: 'This operation gets a User',
                 operationId: 'get-User-op',
                 requestSchema: {
-                    headers: {
-                        requestId: Types.String({
-                            description: 'Request ID',
-                            required: false,
-                            example: 'b710e129-4e2c-4448-b605-73b18d297bae'
-                        })
-                    },
                     params: {
                         id: Types.Uuid({
                             description: 'User ID',
@@ -116,18 +158,57 @@ export function initGetUser(app: Application, openApi: OpenApi) {
                                     type: 'object',
                                     description: 'User data',
                                     properties: {
-                                        name: {
+                                        id: {
                                             type: 'string',
-                                            description: 'User name',
+                                            description: "Users id",
                                             maxLength: 100,
-                                        },
-                                        type: {
-                                            type: 'array',
-                                            description: 'User type',
-                                            example: ['Platinum', 'Gold', 'Silver', 'Bronze'],
-                                        }
+                                          },
+                                          firstName: {
+                                            type: 'string',
+                                            description: "Users first name",
+                                            maxLength: 100,
+                                            
+                                          },
+                                          lastName: {
+                                            type: 'string',
+                                            description: "Users last name",
+                                            maxLength: 100,
+                                            
+                                          },
+                                          phoneNmb:{
+                                            type: 'string',
+                                            description: "Users phone number",
+                                            maxLength: 100,
+                                            
+                                          },
+                                          email: {
+                                            type: 'string',
+                                            description: "Users email",
+                                            maxLength: 100,
+                                            
+                                          },
+                                          password: {
+                                            type: 'string',
+                                            description: "Users password",
+                                            maxLength: 100,
+                                          },
+                                          enableNotifs: {
+                                            type: 'boolean',
+                                            description: "Users notification settings", 
+                                          },
                                     },
 
+                                }
+                            }
+                        }
+                    },
+                    404: {
+                        description: 'Not Found',
+                        content: {
+                            'text/plain': {
+                                schema: {
+                                    type: 'array',
+                                    description: 'User not found',
                                 }
                             }
                         }

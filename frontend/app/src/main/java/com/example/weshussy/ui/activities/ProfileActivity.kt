@@ -20,18 +20,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
+import com.example.weshussy.api.RetrofitClient
+import com.example.weshussy.api.interfaces.UserApi
 import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
-import com.example.weshussy.ui.viewmodels.ProfileInfoViewModel
 import kotlinx.coroutines.launch
 
 class ProfileActivity : ComponentActivity() {
-    val viewModel = ProfileInfoViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeShussyTheme {
-                ProfileSettingsScreen(viewModel = viewModel)
+                ProfileSettingsScreen()
             }
         }
     }
@@ -39,7 +39,7 @@ class ProfileActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileSettingsScreen(viewModel: ProfileInfoViewModel) {
+fun ProfileSettingsScreen() {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -145,19 +145,28 @@ fun ProfileSettingsScreen(viewModel: ProfileInfoViewModel) {
         Button(
             onClick = {
                 coroutineScope.launch {
-                    viewModel.updateUser(
-                        user.id,
-                        firstName,
-                        lastName,
-                        email,
-                        phoneNumber,
-                        notificationsEnabled
+                    val response = RetrofitClient().userApi.updateUser(
+                        UserApi.UpdateUserRequestBody(
+                            user.id,
+                            firstName,
+                            lastName,
+                            email,
+                            phoneNumber,
+                            notificationsEnabled
+                        )
                     )
+                    println(response)
+                    if (response.isSuccessful) {
+                        println("USER HERE")
+                        println(response.body())
+                        Intent(
+                            context,
+                            HomeActivity::class.java
+                        ).also { context.startActivity(it) }
+                    } else {
+                        println(response.errorBody())
+                    }
                 }
-                Intent(
-                    context,
-                    HomeActivity::class.java
-                ).also { context.startActivity(it)}
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ){
