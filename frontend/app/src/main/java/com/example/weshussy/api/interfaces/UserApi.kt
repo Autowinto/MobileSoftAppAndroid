@@ -37,7 +37,7 @@ interface UserApi {
     suspend fun createUser(@Body requestBody: CreateUserRequestBody): Response<String>
 
     @PUT("users/")
-    suspend fun updateUser(@Body requestBody: UpdateUserRequestBody): Response<String>
+    suspend fun updateUser(@Body requestBody: UpdateUserRequestBody): Response<User>
 
     data class UserLoginRequestBody (
         val email: String,
