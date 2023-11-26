@@ -17,15 +17,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.api.RetrofitClient
 import com.example.weshussy.ui.activities.HomeActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
+import kotlinx.coroutines.coroutineScope
+
 
 class GroupSettingsActivity : ComponentActivity() {
+    private val viewModel = GroupInfoViewModel();
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val groupId = getIntent().getStringExtra("groupId")?: return
+        viewModel.setGroupId(groupId)
+
         setContent {
             WeShussyTheme {
-                GroupSettingsScreen()
+                GroupSettingsScreen(viewModel);
             }
         }
     }
@@ -33,11 +45,31 @@ class GroupSettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupSettingsScreen() {
-    val groupName = remember { mutableStateOf(TextFieldValue()) }
-    val groupDescription = remember { mutableStateOf(TextFieldValue()) }
-    val memberNameToAdd = remember { mutableStateOf(TextFieldValue()) }
+fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
+    val coroutineScope = rememberCoroutineScope()
+    val groupId = remember { mutableStateOf("") }
+    val groupName = remember { mutableStateOf("") }
+    val groupDescription = remember { mutableStateOf("") }
+    val memberNameToAdd = remember { mutableStateOf("") }
+    val groupOwnerId = remember { mutableStateOf("") }
     val groupMembers = remember { mutableStateListOf("member 1", "member 2", "member 3", "member 3") } // Example members
+
+    coroutineScope.launch {
+        val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
+//        val response = viewModel.;
+//        response.add
+        if (response.isSuccessful) {
+            val body = response.body()
+            if (body == null) return@launch
+            groupId.value = body.id;
+            groupName.value = body.name;
+            groupDescription.value = body.description.toString();
+            groupOwnerId.value = body.ownerId;
+        }
+
+        println("WHAT IS THIS " + groupName)
+//        println(groupExpenses)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         val context = LocalContext.current // Obtain the context
