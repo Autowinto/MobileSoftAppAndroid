@@ -43,17 +43,24 @@ export async function initUpdateUser(app: Application, openApi: OpenApi) {
     app.post('/', updateUser)
 
     const commonProperties = {
-        name: Types.String({
-            description: "Name",
+        firstName: Types.String({
+            description: "First name",
+            maxLength: 100,
+        }),
+        lastName: Types.String({
+            description: "Last name",
+            maxLength: 100,
+        }),
+        phoneNmb: Types.String({
+            description: "Phone number",
             maxLength: 100,
         }),
         email: Types.String({
             description: "Email",
         }),
-        password: Types.String({
-            description: "Password",
-            maxLength: 30,
-        })
+        enableNotifs: Types.Boolean({
+            description: "Enable notifications",
+        }),
     };
 
 

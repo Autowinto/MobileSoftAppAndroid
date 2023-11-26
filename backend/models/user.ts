@@ -1,11 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../src/initialize';
-export interface UserType {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-}
 
 const User = sequelize.define(
     "user", {
