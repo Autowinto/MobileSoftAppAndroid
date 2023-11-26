@@ -31,7 +31,7 @@ export async function createGroup(req: Request, res: Response) {
             throw err
         });
 
-        res.status(201).send("Group created succesfully")
+        res.status(201).send({message: "Group created succesfully"})
     } catch (error) {
         console.log(error)
         res.status(400).send(error)

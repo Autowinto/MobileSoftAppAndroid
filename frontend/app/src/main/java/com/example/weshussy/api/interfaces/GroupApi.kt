@@ -21,20 +21,20 @@ interface GroupApi {
         val id: String
     )
     @DELETE("groups/")
-    suspend fun deleteGroup(@Body requestBody: GroupDeleteRequestBody): Response<Group>
+    suspend fun deleteGroup(@Body requestBody: GroupDeleteRequestBody): Response<String>
 
     data class GroupMemberCreateRequestBody (
         val name: String,
         val userId: String
     )
     @POST("groups/members/")
-    suspend fun addGroupMember(@Body requestBody: GroupMemberCreateRequestBody): Response<Group>
+    suspend fun addGroupMember(@Body requestBody: GroupMemberCreateRequestBody): Response<String>
 
     data class GroupMemberDeleteRequestBody (
         val id: String
     )
     @DELETE("groups/members/")
-    suspend fun removeMember(@Body requestBody: GroupMemberDeleteRequestBody): Response<Group>
+    suspend fun removeMember(@Body requestBody: GroupMemberDeleteRequestBody): Response<String>
 
     @GET("groups/members/")
     suspend fun getMembers(@Query("groupId") groupId: String): Response<List<User>>
