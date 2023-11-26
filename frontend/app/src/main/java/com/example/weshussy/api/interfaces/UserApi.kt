@@ -25,11 +25,19 @@ interface UserApi {
         val password: String,
         val enableNotifs: Boolean
     )
+    data class UpdateUserRequestBody(
+        val id: String,
+        val firstName: String,
+        val lastName: String,
+        val email: String,
+        val phoneNmb: String,
+        val enableNotifs: Boolean
+    )
     @POST("users/")
     suspend fun createUser(@Body requestBody: CreateUserRequestBody): Response<String>
 
     @PUT("users/")
-    suspend fun updateUser(@Body user: User): Response<Object>
+    suspend fun updateUser(@Body requestBody: UpdateUserRequestBody): Response<String>
 
     data class UserLoginRequestBody (
         val email: String,

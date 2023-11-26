@@ -161,7 +161,7 @@ fun HomeView(viewModel: HomeViewModel) {
             snackbarHostState.showSnackbar(
                 message = "Notification sent!",
                 actionLabel = "OK",
-                duration = SnackbarDuration.Short
+                duration = SnackbarDuration.Long
             )
             showSnackbar = false
         }
