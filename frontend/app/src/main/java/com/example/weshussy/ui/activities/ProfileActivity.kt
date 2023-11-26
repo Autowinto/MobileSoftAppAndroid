@@ -22,13 +22,16 @@ import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
 import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.ProfileInfoViewModel
+import kotlinx.coroutines.launch
 
 class ProfileActivity : ComponentActivity() {
+    val viewModel = ProfileInfoViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeShussyTheme {
-                ProfileSettingsScreen()
+                ProfileSettingsScreen(viewModel = viewModel)
             }
         }
     }
@@ -36,7 +39,7 @@ class ProfileActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileSettingsScreen() {
+fun ProfileSettingsScreen(viewModel: ProfileInfoViewModel) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -140,13 +143,24 @@ fun ProfileSettingsScreen() {
 
         // Save button
         Button(
-            onClick = {   context.startActivity(Intent(context, HomeActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }) },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 16.dp)
-        ) {
+            onClick = {
+                coroutineScope.launch {
+                    viewModel.updateUser(
+                        user.id,
+                        firstName,
+                        lastName,
+                        email,
+                        phoneNumber,
+                        notificationsEnabled
+                    )
+                }
+                Intent(
+                    context,
+                    HomeActivity::class.java
+                ).also { context.startActivity(it)}
+            },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ){
             Text("Save")
         }
 

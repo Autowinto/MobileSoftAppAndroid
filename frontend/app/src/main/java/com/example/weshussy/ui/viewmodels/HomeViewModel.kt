@@ -7,8 +7,6 @@ import com.example.weshussy.api.data.Group
 class HomeViewModel: ViewModel() {
     suspend fun getGroupsForUser(userId: String): List<Group> {
         val response = RetrofitClient().userApi.getGroupsByUser(userId)
-        println("response")
-        println(response)
         return response.body()!!
     }
 }

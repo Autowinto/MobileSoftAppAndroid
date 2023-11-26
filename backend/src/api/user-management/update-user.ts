@@ -10,6 +10,7 @@ import * as UserType from '../../../shared_models/user'
 export async function updateUser(req: Request, res: Response) {
     const user = req.body;
 
+    console.log(user);
     User.findOne({ where: { id: user.id } }).then((response) => {
         if (response) {
             putUser(user, res);
@@ -22,10 +23,9 @@ export async function updateUser(req: Request, res: Response) {
 async function putUser(user: UserType.user, res: Response) {
     try {
         User.update({
-            first_name: user.first_name,
-            last_name: user.last_name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
-            password: user.password,
             phoneNmb: user.phoneNmb,
             enableNotifs: user.enableNotifs,
             updated_at: moment.now()
