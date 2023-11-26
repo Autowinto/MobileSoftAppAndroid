@@ -114,7 +114,9 @@ fun HomeView(viewModel: HomeViewModel) {
                             balance = "$200",
                             total = "$" + group.totalExpenses.toString(),
                             onCardClick = {
-                                context.startActivity(Intent(context, GroupInfoActivity::class.java))
+                                val intent = Intent(context, GroupInfoActivity::class.java)
+                                intent.putExtra("groupId", group.id)
+                                context.startActivity(intent)
                             },
                             onNotificationClick = {
                                 showDialog = true

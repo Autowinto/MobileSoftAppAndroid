@@ -12,6 +12,7 @@ class RegisterViewModel {
         password: String,
         enableNotifications: Boolean
     ) {
+        println("Creating user!")
         RetrofitClient().userApi.createUser(
             UserApi.CreateUserRequestBody(
                 firstName,

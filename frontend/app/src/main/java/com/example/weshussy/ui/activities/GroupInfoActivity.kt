@@ -21,6 +21,9 @@ class GroupInfoActivity : ComponentActivity() {
     private val viewModel = GroupInfoViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val groupId = getIntent().getStringExtra("groupId")?: return
+        viewModel.setGroupId(groupId)
         setContent {
             WeShussyTheme {
                 // A surface container using the 'background' color from the theme
@@ -37,10 +40,6 @@ class GroupInfoActivity : ComponentActivity() {
 
 @Composable
 fun GroupScreen(viewModel: GroupInfoViewModel) {
-    Text(text = "Test")
-    val coroutineScope = rememberCoroutineScope()
-    Button(onClick = { coroutineScope.launch { viewModel.createGroup(groupName = "Test Group", userId = "321321") } }) {
-        Text(text = "CREATE GROUP TEST")
 
-    }
+    Text(text = "Test")
 }

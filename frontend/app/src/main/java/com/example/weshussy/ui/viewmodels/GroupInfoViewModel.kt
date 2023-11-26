@@ -6,9 +6,12 @@ import com.example.weshussy.api.RetrofitClient
 import com.example.weshussy.api.interfaces.GroupApi.GroupCreateRequestBody
 
 class GroupInfoViewModel(): ViewModel() {
-    suspend fun createGroup(groupName: String, userId: String) {
-        val request = GroupCreateRequestBody(name = groupName, userId = userId)
-        println(request)
-        RetrofitClient().groupApi.createGroup(request)
+    private var groupId = ""
+
+    fun setGroupId(groupId: String) {
+        this.groupId = groupId
+    }
+    fun getGroupId(): String {
+        return this.groupId
     }
 }
