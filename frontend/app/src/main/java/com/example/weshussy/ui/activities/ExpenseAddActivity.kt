@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.weshussy.ui.activities.GroupInfoActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
 
 
@@ -46,7 +45,7 @@ fun ExpenseAddScreen() {
             TopNavBar(
                 title = "Add expense",
                 onBackClick = {
-                    val intent = Intent(context, GroupInfoActivity::class.java).apply {
+                    val intent = Intent(context, GroupSettingsActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     context.startActivity(intent)
@@ -83,7 +82,7 @@ fun ExpenseAddScreen() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    val intent = Intent(context, GroupInfoActivity::class.java).apply {
+                    val intent = Intent(context, GroupSettingsActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     context.startActivity(intent)

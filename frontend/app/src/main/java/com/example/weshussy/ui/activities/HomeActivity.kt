@@ -42,11 +42,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
-import com.example.weshussy.ui.activities.GroupCreateActivity
 import com.example.weshussy.api.data.Group
 import com.example.weshussy.components.BalanceCard
 import com.example.weshussy.ui.UserSession

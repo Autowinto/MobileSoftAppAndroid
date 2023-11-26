@@ -64,9 +64,9 @@ fun LoginScreen() {
             modifier = Modifier
                 .height(250.dp)
                 .width(250.dp)
+                .padding(16.dp)
                 .clip(RoundedCornerShape(20.dp))
         )
-        Spacer(modifier = Modifier.height(16.dp))
 
         // Login Text
         Text(text = "LOGIN", style = MaterialTheme.typography.headlineMedium)

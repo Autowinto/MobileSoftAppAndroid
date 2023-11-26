@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.example.weshussy.ui.activities.GroupInfoActivity
+import com.example.weshussy.ui.activities.HomeActivity
 import com.example.weshussy.ui.theme.WeShussyTheme
 
 class GroupSettingsActivity : ComponentActivity() {
@@ -46,7 +46,7 @@ fun GroupSettingsScreen() {
             title = "Group settings",
             onBackClick = {
                 // Intent to go back to HomeActivity with the task stack cleared
-                val intent = Intent(context, GroupInfoActivity::class.java).apply {
+                val intent = Intent(context, HomeActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 }
                 context.startActivity(intent) // Start the HomeActivity
