@@ -4,12 +4,14 @@ import { addMember } from "./add-member";
 import { deleteGroup } from "./delete-group";
 import { removeMember } from "./remove-member";
 import { getMembers } from "./get-members";
+import { getGroup } from "./get-group";
 
 const router = express.Router();
 
 //group operations
 router.post('/', createGroup);
 router.delete('/', deleteGroup);
+router.get('/:id', getGroup);
 
 //members operations
 router.post('/members', addMember);

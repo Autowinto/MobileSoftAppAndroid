@@ -57,7 +57,7 @@ export function initGetMembers(app: Application, openApi: OpenApi) {
                 },
                 tags: ["Group Operations"],
                 responses: {
-                    201: textPlain("Created"),
+                    200: textPlain("OK"),
                     400: textPlain("Bad Request"),
                     401: textPlain("Unauthorized"),
                 },
