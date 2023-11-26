@@ -38,7 +38,7 @@ class GroupCreateActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
-    val groupName = remember { mutableStateOf(TextFieldValue()) }
+    val groupName = remember { mutableStateOf("") }
     val groupDescription = remember { mutableStateOf(TextFieldValue()) }
     val memberNameToAdd = remember { mutableStateOf(TextFieldValue()) }
     val groupMembers = remember { mutableStateListOf("member 1", "member 2") } // Example members
@@ -115,7 +115,7 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
         Button(
             onClick = { coroutineScope.launch {
                 println("Coroutine triggered")
-                viewModel.createGroup(name = groupName.value.text, userId = currentUser.id)
+                viewModel.createGroup(name = groupName.value, userId = currentUser.id)
             } },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
