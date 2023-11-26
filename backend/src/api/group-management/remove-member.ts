@@ -42,7 +42,7 @@ export function initRemoveMember(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/group/members",
+        "/groups/members",
         {
             delete: {
                 summary: "Remove Member from Group",

@@ -53,7 +53,7 @@ export function initDeleteGroup(app: Application, openApi: OpenApi) {
     };
 
     openApi.addPath(
-        "/group",
+        "/groups",
         {
             delete: {
                 summary: "Delete group",

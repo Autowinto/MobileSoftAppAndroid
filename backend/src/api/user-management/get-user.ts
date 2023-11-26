@@ -4,21 +4,25 @@ import { User } from '../../groups/setup-groups';
 
 export async function getUser(req: Request, res: Response) {
     try {
-    const id = req.query.id;
-    console.log(id);
-    User.findOne({ where: { id: id } }).then((user) => {
-        res.send(user);
-    })
-} catch (error) {
-    console.log(error);
-    res.status(400).send(error);
-}
+        const id = req.params.id;
+        console.log(id);
+        User.findOne({ where: { id: id } }).then((user) => {
+            res.send(user);
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+    }
 };
 
 export async function getAllUsers(req: Request, res: Response) {
+    try {
     const users = User.findAll().then((users) => {
         res.json(users);
     })
+} catch (error) {
+    throw error;
+}
 };
 
 export function initGetAllUser(app: Application, openApi: OpenApi) {
@@ -78,9 +82,9 @@ export function initGetAllUser(app: Application, openApi: OpenApi) {
 }
 
 export function initGetUser(app: Application, openApi: OpenApi) {
-    app.get('/user', getUser);
+    app.get('/:id/user', getUser);
     openApi.addPath(
-        '/user',
+        '/users/{id}/user',
         {
             get: {
                 summary: 'Get User',
@@ -94,7 +98,7 @@ export function initGetUser(app: Application, openApi: OpenApi) {
                             example: 'b710e129-4e2c-4448-b605-73b18d297bae'
                         })
                     },
-                    query: {
+                    params: {
                         id: Types.Uuid({
                             description: 'User ID',
                             required: true,

@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../src/initialize';
-export interface User {
+export interface UserType {
     id: number;
     name: string;
     email: string;

@@ -1,4 +1,4 @@
-import { Application, Request, Response} from 'express';
+import { Application, Request, Response } from 'express';
 import { OpenApi, Types, textPlain, Schema } from 'ts-openapi';
 import { User, Group, UserGroup } from '../../groups/setup-groups';
 import { getUser } from './get-user';
@@ -19,7 +19,8 @@ export async function updateUser(req: Request, res: Response) {
     });
 }
 
-async function putUser(user : UserType.user, res: Response) {
+async function putUser(user: UserType.user, res: Response) {
+    try {
     User.update({
         first_name: user.first_name,
         last_name: user.last_name,
@@ -35,6 +36,8 @@ async function putUser(user : UserType.user, res: Response) {
     }).catch(() => {
         res.status(400).send('User could not be updated')
     })
+} catch (err) {
+    res.status(400).send(err.message);
 }
 export async function initUpdateUser(app: Application, openApi: OpenApi) {
     app.post('/', updateUser)
@@ -55,7 +58,7 @@ export async function initUpdateUser(app: Application, openApi: OpenApi) {
 
 
     openApi.addPath(
-        "/",
+        "/users",
         {
             post: {
                 summary: "Update User",
