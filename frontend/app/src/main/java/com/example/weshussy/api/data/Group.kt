@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class Group(
     @JsonProperty("id") val id: String,
     @JsonProperty("name") val name: String,
+    @JsonProperty("description") val description: String,
     @JsonProperty("totalExpense") val totalExpenses: Int,
     @JsonProperty("ownerId") val ownerId: String,
     @JsonProperty("createdAt") val createdAt: String,
