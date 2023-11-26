@@ -3,6 +3,7 @@ package com.example.weshussy.ui.activities
 import TopNavBar
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -120,6 +121,8 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
             Button(
                 onClick = {
                     coroutineScope.launch {
+                        try {
+
                         viewModel.createUser(
                             firstName,
                             lastName,
@@ -128,6 +131,9 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
                             password,
                             enableNotifications = true
                         )
+                        } catch (e: Exception) {
+                            Log.e("UserCreation", "Failed to create user")
+                        }
                     }
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)

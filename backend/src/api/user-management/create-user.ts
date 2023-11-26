@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 export async function createUser(req: Request, res: Response) {
   const user = req.body;
   const uid = uuidv4();
+  console.log(user)
 
   try {
     const exist = await phoneEmailCheck(user.phoneNmb, user.email);
