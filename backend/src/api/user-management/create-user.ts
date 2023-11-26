@@ -14,11 +14,10 @@ export async function createUser(req: Request, res: Response) {
   try {
     const exist = await phoneEmailCheck(user.phoneNmb, user.email);
     if (exist) {
-      res.status(400).send("User already exists");
-      return;
+      return res.status(400).send("User already exists");
     }
     const hashedPassword = await hasher(user.password);
-console.log(user)
+
     User.create({
         id: uid,
         firstName: user.firstName,
@@ -28,7 +27,7 @@ console.log(user)
         password: hashedPassword,
         enableNotifs: user.enableNotifs,
     }).then(() => {
-        res.status(201).send("User created successfully");
+        return res.status(201).send({message: "User created successfully"});
       })
       .catch((err) => {
         console.log(err);

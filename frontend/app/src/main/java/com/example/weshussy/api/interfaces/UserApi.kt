@@ -2,6 +2,7 @@ package com.example.weshussy.api.interfaces
 
 import com.example.weshussy.api.data.Group
 import com.example.weshussy.api.data.User
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -34,10 +35,10 @@ interface UserApi {
         val enableNotifs: Boolean
     )
     @POST("users/")
-    suspend fun createUser(@Body requestBody: CreateUserRequestBody): Response<String>
+    suspend fun createUser(@Body requestBody: CreateUserRequestBody): Response<Object>
 
     @PUT("users/")
-    suspend fun updateUser(@Body requestBody: UpdateUserRequestBody): Response<User>
+    suspend fun updateUser(@Body requestBody: UpdateUserRequestBody): Response<String>
 
     data class UserLoginRequestBody (
         val email: String,

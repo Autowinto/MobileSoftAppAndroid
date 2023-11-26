@@ -20,6 +20,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.R
+import com.example.weshussy.api.RetrofitClient
+import com.example.weshussy.api.interfaces.UserApi.CreateUserRequestBody
+import com.example.weshussy.api.interfaces.UserApi
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.RegisterViewModel
 import kotlinx.coroutines.launch
@@ -122,15 +125,25 @@ fun RegisterScreen(viewModel: RegisterViewModel) {
                 onClick = {
                     coroutineScope.launch {
                         try {
+                            val response = RetrofitClient().userApi.createUser(
+                                CreateUserRequestBody(
+                                    firstName,
+                                    lastName,
+                                    email,
+                                    phoneNumber,
+                                    password,
+                                    enableNotifs = true
+                                )
+                            )
 
-                        viewModel.createUser(
-                            firstName,
-                            lastName,
-                            email,
-                            phoneNumber,
-                            password,
-                            enableNotifications = true
-                        )
+                            if (response.isSuccessful) {
+                                Intent(
+                                    context,
+                                    LoginActivity::class.java
+                                ).also { context.startActivity(it) }
+                            } else {
+                                println("Stuff failed")
+                            }
                         } catch (e: Exception) {
                             Log.e("UserCreation", "Failed to create user")
                         }

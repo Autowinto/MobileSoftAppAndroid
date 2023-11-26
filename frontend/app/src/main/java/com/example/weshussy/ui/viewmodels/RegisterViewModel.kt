@@ -12,8 +12,8 @@ class RegisterViewModel {
         password: String,
         enableNotifications: Boolean
     ) {
-        println("Creating user!")
-        val response = RetrofitClient().userApi.createUser(
+
+        RetrofitClient().userApi.createUser(
             UserApi.CreateUserRequestBody(
                 firstName,
                 lastName,
@@ -23,7 +23,6 @@ class RegisterViewModel {
                 enableNotifs = enableNotifications
             )
         )
-        if (response.isSuccessful) println("We made a user!")
 
     }
 }
