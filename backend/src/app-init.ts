@@ -1,6 +1,7 @@
 import { initGetAllUser, initGetUser } from "./api/user-management/get-user";
 import * as userRouter from './api/user-management/router';
 import * as groupRouter from './api/group-management/router';
+import * as expenseRouter from './api/expense-management/router';
 import { initCreateUser } from "./api/user-management/create-user";
 import { initOpenApi, openApiInstance } from "./openapi";
 import { initCreateGroup } from "./api/group-management/create-group";
@@ -11,6 +12,12 @@ import dotenv from 'dotenv';
 import { initAddMember } from "./api/group-management/add-member";
 import { initDeleteGroup } from "./api/group-management/delete-group";
 import { initGetMembers } from "./api/group-management/get-members";
+import { initCreateExpense } from "./api/expense-management/create-expense";
+import { initEditExpense } from "./api/expense-management/edit-expense";
+import { initDeleteExpense } from "./api/expense-management/delete-expense";
+import { initGetExpenseDetails } from "./api/expense-management/show-expense";
+import { initGetExpenseHistory } from "./api/expense-management/history-expense";
+import { initGetAllExpenses } from "./api/expense-management/get-expenses";
 import { initRemoveMember } from "./api/group-management/remove-member";
 import { initGetGroupsByUser } from "./api/user-management/get-user-groups";
 import { initGetGroup } from "./api/group-management/get-group";
@@ -25,8 +32,9 @@ export async function appInit() {
     app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
     // Set routes
-    app.use('/api/users', userRouter.default);
-    app.use('/api/groups', groupRouter.default)
+    app.use('/api/user', userRouter.default);
+    app.use('/api/group', groupRouter.default)
+    app.use('/api/expense', expenseRouter.default)
 
     // User Management
     initCreateUser(app, openApiInstance);
@@ -44,6 +52,15 @@ export async function appInit() {
     initAddMember(app, openApiInstance);
     initGetMembers(app, openApiInstance);
     initRemoveMember(app, openApiInstance);
+
+    // Expense management
+    initCreateExpense(app, openApiInstance);
+    initEditExpense(app, openApiInstance);
+    initDeleteExpense(app, openApiInstance);
+    initGetExpenseDetails(app, openApiInstance);
+    initGetExpenseHistory(app, openApiInstance);
+    initGetAllExpenses(app, openApiInstance);
+    
 
     // OpenApi
     initOpenApi(app, openApiInstance);
