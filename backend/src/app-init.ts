@@ -13,6 +13,7 @@ import { initDeleteGroup } from "./api/group-management/delete-group";
 import { initGetMembers } from "./api/group-management/get-members";
 import { initRemoveMember } from "./api/group-management/remove-member";
 import { initGetGroupsByUser } from "./api/user-management/get-user-groups";
+import { initGetGroup } from "./api/group-management/get-group";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -37,6 +38,7 @@ export async function appInit() {
     // Group Management
     initCreateGroup(app, openApiInstance);
     initDeleteGroup(app, openApiInstance);
+    initGetGroup(app, openApiInstance);
 
     // Member management
     initAddMember(app, openApiInstance);
