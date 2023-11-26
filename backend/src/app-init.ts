@@ -18,6 +18,7 @@ import { initDeleteExpense } from "./api/expense-management/delete-expense";
 import { initGetExpenseDetails } from "./api/expense-management/show-expense";
 import { initGetExpenseHistory } from "./api/expense-management/history-expense";
 import { initGetAllExpenses } from "./api/expense-management/get-expenses";
+import { initRemoveMember } from "./api/group-management/remove-member";
 
 export async function appInit() {
     const SERVER_PORT = process.env.PORT || 8081
@@ -46,6 +47,7 @@ export async function appInit() {
     // Member management
     initAddMember(app, openApiInstance);
     initGetMembers(app, openApiInstance);
+    initRemoveMember(app, openApiInstance);
 
     // Expense management
     initCreateExpense(app, openApiInstance);

@@ -12,8 +12,8 @@ router.post('/', createGroup);
 router.delete('/', deleteGroup);
 
 //members operations
-router.post('/members/', addMember);
-router.delete('/members/', removeMember);
-router.get('/members/', getMembers);
+router.post('/members', addMember);
+router.delete('/members', removeMember);
+router.get('/members', getMembers);
 
 export default router;

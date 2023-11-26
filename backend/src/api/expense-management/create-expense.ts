@@ -7,6 +7,7 @@ import { Expense, User, Group } from '../../expenses/setup-expenses';
 export async function createExpense(req: Request, res: Response) {
     try{
         const {userId, groupId, amount} = req.body;
+
         const expenseId = uuidv4();
 
         if (userId == null || groupId == null || amount == null){
@@ -20,6 +21,17 @@ export async function createExpense(req: Request, res: Response) {
         }).catch((err) => {
             throw err;
         });
+
+          
+          const group = await Group.findByPk(groupId);
+          if (!group) {
+              throw "Group not found";
+          }
+  
+          const updatedTotal = group.dataValues.totalExpense + amount;
+          await Group.update({ totalExpense: updatedTotal }, { where: { id: groupId } });
+  
+            
 
         res.status(201).send("Expense created successfully");
     } catch (error) { 

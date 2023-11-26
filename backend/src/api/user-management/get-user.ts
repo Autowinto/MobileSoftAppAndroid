@@ -3,15 +3,19 @@ import { OpenApi, Types } from 'ts-openapi';
 import { User } from '../../groups/setup-groups';
 
 export async function getUser(req: Request, res: Response) {
-    // const { id } = req.query;
-    // const user = await db.user.findOne({ where: { id } });
-    // res.json(user);
-
-    // I just want to see if this works
-    res.send({ "name": "John" });
+    try {
+    const id = req.query.id;
+    console.log(id);
+    User.findOne({ where: { id: id } }).then((user) => {
+        res.send(user);
+    })
+} catch (error) {
+    console.log(error);
+    res.status(400).send(error);
 }
+};
 
-export async function getAllUsers(res: Response) {
+export async function getAllUsers(req: Request, res: Response) {
     const users = User.findAll().then((users) => {
         res.json(users);
     })
@@ -74,9 +78,7 @@ export function initGetAllUser(app: Application, openApi: OpenApi) {
 }
 
 export function initGetUser(app: Application, openApi: OpenApi) {
-    app.get('/user', getUser)
-
-
+    app.get('/user', getUser);
     openApi.addPath(
         '/user',
         {
@@ -130,5 +132,6 @@ export function initGetUser(app: Application, openApi: OpenApi) {
             }
         },
         true
-    )
+    );
 }
+
