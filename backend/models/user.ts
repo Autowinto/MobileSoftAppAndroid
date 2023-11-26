@@ -1,11 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../src/initialize';
-export interface UserType {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-}
 
 const User = sequelize.define(
     "user", {
@@ -13,11 +7,11 @@ const User = sequelize.define(
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    first_name: {
+    firstName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    last_name: {
+    lastName: {
         type: DataTypes.STRING,
         allowNull: false,
     },

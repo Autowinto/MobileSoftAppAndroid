@@ -1,18 +1,24 @@
-package com.example.weshussy
+package com.example.weshussy.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
+import kotlinx.coroutines.launch
 
-class ProfileActivity : ComponentActivity() {
+class GroupInfoActivity : ComponentActivity() {
+    private val viewModel = GroupInfoViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,13 +28,19 @@ class ProfileActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ProfileText()
+                    GroupScreen(viewModel)
                 }
             }
         }
     }
 }
+
 @Composable
-fun ProfileText() {
-    Text(text = "PROFILE")
+fun GroupScreen(viewModel: GroupInfoViewModel) {
+    Text(text = "Test")
+    val coroutineScope = rememberCoroutineScope()
+    Button(onClick = { coroutineScope.launch { viewModel.createGroup(groupName = "Test Group", userId = "321321") } }) {
+        Text(text = "CREATE GROUP TEST")
+
+    }
 }
