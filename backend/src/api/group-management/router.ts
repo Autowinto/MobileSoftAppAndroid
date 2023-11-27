@@ -5,11 +5,13 @@ import { deleteGroup } from "./delete-group";
 import { removeMember } from "./remove-member";
 import { getMembers } from "./get-members";
 import { getGroup } from "./get-group";
+import { editGroup } from "./edit-group";
 
 const router = express.Router();
 
 //group operations
 router.post('/', createGroup);
+router.put('/', editGroup)
 router.delete('/', deleteGroup);
 router.get('/:id', getGroup);
 
