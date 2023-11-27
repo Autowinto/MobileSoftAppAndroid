@@ -23,6 +23,7 @@ import com.example.weshussy.ui.theme.WeShussyTheme
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.example.weshussy.api.interfaces.GroupApi
 import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 import kotlinx.coroutines.coroutineScope
 
@@ -32,7 +33,7 @@ class GroupSettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val groupId = getIntent().getStringExtra("groupId")?: return
+        val groupId = getIntent().getStringExtra("groupId") ?: return
         viewModel.setGroupId(groupId)
 
         setContent {
@@ -52,7 +53,14 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
     val groupDescription = remember { mutableStateOf("") }
     val memberNameToAdd = remember { mutableStateOf("") }
     val groupOwnerId = remember { mutableStateOf("") }
-    val groupMembers = remember { mutableStateListOf("member 1", "member 2", "member 3", "member 3") } // Example members
+    val groupMembers = remember {
+        mutableStateListOf(
+            "member 1",
+            "member 2",
+            "member 3",
+            "member 3"
+        )
+    } // Example members
 
     coroutineScope.launch {
         val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
@@ -85,7 +93,7 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
             },
             showEdit = false,
 
-        )
+            )
 
         Card(
             modifier = Modifier
@@ -139,7 +147,18 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { /* TODO: Save group settings */ },
+            onClick = {
+                coroutineScope.launch {
+
+                    RetrofitClient().groupApi.updateGroupById(
+                        GroupApi.GroupUpdateRequestBody(
+                            id = groupId.value,
+                            name = groupName.value,
+                            description = groupDescription.value
+                        )
+                    )
+                }
+            },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)

@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.lang.invoke.TypeDescriptor
@@ -19,6 +20,14 @@ interface GroupApi {
     )
     @POST("groups/")
     suspend fun createGroup(@Body requestBody: GroupCreateRequestBody): Response<Object>
+
+    data class GroupUpdateRequestBody(
+        val id: String,
+        val name: String,
+        val description: String,
+    )
+    @PUT("groups/")
+    suspend fun updateGroupById(@Body requestBody: GroupUpdateRequestBody): Response<Unit>
 
     @GET("groups/{id}")
     suspend fun getGroupById(@Path("id") id: String): Response<Group>
