@@ -6,15 +6,14 @@ import { v4 as uuidv4 } from 'uuid';
 export async function editGroup(req: Request, res: Response) {
 
     try {
-        const { id, name, ownerId, description, totalExpense} = req.body;
+        const { id, name, ownerId, description} = req.body;
 
         if (name == null || description == null) {
             throw "Error creating group, no group name or user id was provided";
         }
 
         const group = await Group.findByPk(id)
-
-        group.update({name, description, totalExpense}).catch((e) => {
+        group.update({name, description}).catch((e) => {
           console.error(e)
         })
 

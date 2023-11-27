@@ -34,7 +34,7 @@ class GroupSettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val groupId = getIntent().getStringExtra("groupId")?: return
+        val groupId = getIntent().getStringExtra("groupId") ?: return
         viewModel.setGroupId(groupId)
 
         setContent {
@@ -89,7 +89,7 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
             },
             showEdit = false,
 
-        )
+            )
 
         Card(
             modifier = Modifier
