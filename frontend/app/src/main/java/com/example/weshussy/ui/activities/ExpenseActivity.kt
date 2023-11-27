@@ -37,10 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.api.RetrofitClient
-import com.example.weshussy.ui.activities.ExpenseAddActivity
-import com.example.weshussy.ui.activities.ExpenseDetailsActivity
-import com.example.weshussy.ui.activities.GroupSettingsActivity
-import com.example.weshussy.components.BalanceCard
+import com.example.weshussy.ui.components.BalanceCard
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 import kotlinx.coroutines.launch
