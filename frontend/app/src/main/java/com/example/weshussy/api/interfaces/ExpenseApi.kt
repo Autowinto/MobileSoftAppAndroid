@@ -8,7 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.Response
 
-interface ExpenseService {
+interface ExpenseApi {
 
     // Create a new expense
     @POST("/expenses/")
