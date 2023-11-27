@@ -15,12 +15,13 @@ import kotlinx.coroutines.flow.asStateFlow
 class GroupCreateUiState {
     var name: String by mutableStateOf("")
     var description: String by mutableStateOf("")
+
 }
 
 class GroupCreateViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(GroupCreateUiState())
     val uiState: StateFlow<GroupCreateUiState> = _uiState.asStateFlow()
-    suspend fun createGroup(name: String, userId: String) {
-        RetrofitClient().groupApi.createGroup(GroupCreateRequestBody(name, userId))
+    suspend fun createGroup(name: String, userId: String, description: String) {
+        RetrofitClient().groupApi.createGroup(GroupCreateRequestBody(name, userId, description))
     }
 }

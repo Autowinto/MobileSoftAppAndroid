@@ -24,6 +24,7 @@ import com.example.weshussy.R
 @Composable
 fun BalanceCard(
     groupName: String,
+    groupDescription: String,
     balance: String,
     total: String,
     onCardClick: () -> Unit, // This lambda will be called when the card is clicked
@@ -51,13 +52,27 @@ fun BalanceCard(
                 ) {
                     Text(
                         text = groupName,
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineSmall
                     )
                     Text(
-                        text = "Your balance",
-                        style = MaterialTheme.typography.bodyMedium
+                        text = groupDescription,
+                        style = MaterialTheme.typography.bodyLarge
                     )
-                    Text(text = balance)
+                    Text(text = "")
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+//                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Your balance",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(text = balance)
+                    }
+
                 }
                 if (showNotificationIcon) {
                     IconButton(

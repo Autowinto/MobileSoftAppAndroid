@@ -40,7 +40,7 @@ fun ExpenseDetailsScreen() {
             TopNavBar(
                 title = "Expense",
                 onBackClick = {
-                    val intent = Intent(context, GroupSettingsActivity::class.java).apply {
+                    val intent = Intent(context, ExpenseActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 }
                     context.startActivity(intent)},

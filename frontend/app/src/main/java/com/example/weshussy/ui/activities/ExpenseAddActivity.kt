@@ -45,7 +45,7 @@ fun ExpenseAddScreen() {
             TopNavBar(
                 title = "Add expense",
                 onBackClick = {
-                    val intent = Intent(context, GroupSettingsActivity::class.java).apply {
+                    val intent = Intent(context, ExpenseActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     context.startActivity(intent)
@@ -82,7 +82,7 @@ fun ExpenseAddScreen() {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    val intent = Intent(context, GroupSettingsActivity::class.java).apply {
+                    val intent = Intent(context, ExpenseActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                     context.startActivity(intent)

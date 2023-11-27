@@ -111,6 +111,7 @@ fun GroupScreen(viewModel: GroupInfoViewModel) {
     ) {
         BalanceCard(
             groupName = groupName.value,
+            groupDescription = "",
             balance = "${groupExpenses.value}",
             total = "${groupExpenses.value}",
             onCardClick = {

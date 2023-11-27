@@ -9,11 +9,13 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.lang.invoke.TypeDescriptor
 
 interface GroupApi {
     data class GroupCreateRequestBody (
         val name: String,
-        val userId: String
+        val userId: String,
+        val description: String
     )
     @POST("groups/")
     suspend fun createGroup(@Body requestBody: GroupCreateRequestBody): Response<Object>

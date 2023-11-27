@@ -111,10 +111,11 @@ fun HomeView(viewModel: HomeViewModel) {
                     groups.forEach { group ->
                         BalanceCard(
                             groupName = group.name,
+                            groupDescription = "",
                             balance = "$200",
                             total = "$" + group.totalExpenses.toString(),
                             onCardClick = {
-                                val intent = Intent(context, GroupInfoActivity::class.java)
+                                val intent = Intent(context, ExpenseActivity::class.java)
                                 intent.putExtra("groupId", group.id)
                                 context.startActivity(intent)
                             },

@@ -75,10 +75,10 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
         val context = LocalContext.current // Obtain the context
 
         TopNavBar(
-            title = "Group settings",
+            title = "Group Settings",
             onBackClick = {
                 // Intent to go back to HomeActivity with the task stack cleared
-                val intent = Intent(context, HomeActivity::class.java).apply {
+                val intent = Intent(context, ExpenseActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 }
                 context.startActivity(intent) // Start the HomeActivity

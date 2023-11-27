@@ -30,23 +30,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.api.RetrofitClient
 import com.example.weshussy.ui.activities.ExpenseAddActivity
 import com.example.weshussy.ui.activities.ExpenseDetailsActivity
 import com.example.weshussy.ui.activities.GroupSettingsActivity
 import com.example.weshussy.components.BalanceCard
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
+import kotlinx.coroutines.launch
 
 class ExpenseActivity : ComponentActivity() {
+    private val viewModel = GroupInfoViewModel();
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val groupId = getIntent().getStringExtra("groupId")?: return
+        viewModel.setGroupId(groupId)
+
         setContent {
             WeShussyTheme {
-                GroupInfoScreen()
+                GroupInfoScreen(viewModel)
             }
         }
     }
@@ -54,12 +63,39 @@ class ExpenseActivity : ComponentActivity() {
 
 
 @Composable
-fun GroupInfoScreen() {
+fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
+    val coroutineScope = rememberCoroutineScope()
+
+    var groupId = remember { mutableStateOf("") }
+    var groupName = remember { mutableStateOf("") }
+    var groupDescription = remember { mutableStateOf("") }
+    var groupExpenses = remember { mutableStateOf(0) }
+    var groupOwnerId = remember { mutableStateOf("") }
+
+
+    coroutineScope.launch {
+        val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
+//        val response = viewModel.;
+//        response.add
+        if (response.isSuccessful) {
+            val body = response.body()
+            if (body == null) return@launch
+            groupId.value = body.id;
+            groupName.value = body.name;
+            groupDescription.value = body.description.toString();
+            groupExpenses.value = body.totalExpenses
+            groupOwnerId.value = body.ownerId;
+        }
+
+        println("WHAT IS THIS " + groupName)
+//        println(groupExpenses)
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         val context = LocalContext.current // Obtain the context
 
         TopNavBar(
-            title = "Group info",
+            title = "Group Info",
             onBackClick = {
                 // Intent to go back to HomeActivity with the task stack cleared
                 val intent = Intent(context, HomeActivity::class.java).apply {
@@ -70,7 +106,9 @@ fun GroupInfoScreen() {
             showEdit = true,
             onEditClick = {
                 // Intent to navigate to GroupSettingsActivity
-                context.startActivity(Intent(context, GroupSettingsActivity::class.java))
+                val intent = Intent(context, GroupSettingsActivity::class.java)
+                intent.putExtra("groupId", groupId.value)
+                context.startActivity(intent)
             }
         )
 
@@ -78,9 +116,10 @@ fun GroupInfoScreen() {
 
         // TODO: Replace placeholder balance and total with actual data
         BalanceCard(
-            groupName = "My Group",
-            balance = "$250",
-            total = "$1000",
+            groupName = groupName.value,
+            groupDescription = groupDescription.value,
+            balance = "$${groupExpenses.value}",
+            total = "$${groupExpenses.value}",
             onCardClick = { /* ... */ },
             onNotificationClick = { /* ... */ },
             showNotificationIcon = false // Hide the notification icon

@@ -41,8 +41,8 @@ class GroupCreateActivity : ComponentActivity() {
 @Composable
 fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
     val groupName = remember { mutableStateOf("") }
-    val groupDescription = remember { mutableStateOf(TextFieldValue()) }
-    val memberNameToAdd = remember { mutableStateOf(TextFieldValue()) }
+    val groupDescription = remember { mutableStateOf("") }
+    val memberNameToAdd = remember { mutableStateOf("") }
     val groupMembers = remember { mutableStateListOf("member 1", "member 2") } // Example members
     val coroutineScope = rememberCoroutineScope()
     val currentUser = UserSession.getUser()?: return
@@ -117,7 +117,7 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
         Button(
             onClick = { coroutineScope.launch {
                 println("Coroutine triggered")
-                val response = RetrofitClient().groupApi.createGroup(GroupCreateRequestBody(name = groupName.value, userId = currentUser.id))
+                val response = RetrofitClient().groupApi.createGroup(GroupCreateRequestBody(name = groupName.value, userId = currentUser.id, description = groupDescription.value))
                 if (response.isSuccessful) {
                     Intent(
                         context,
