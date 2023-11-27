@@ -12,4 +12,8 @@ object UserSession {
     fun getUser(): User? {
         return this.user
     }
+
+    fun clearUser() {
+        this.user = null
+    }
 }
