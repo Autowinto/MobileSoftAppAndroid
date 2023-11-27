@@ -23,6 +23,8 @@ import com.example.weshussy.ui.theme.WeShussyTheme
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.example.weshussy.api.interfaces.GroupApi
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 import kotlinx.coroutines.coroutineScope
 
@@ -53,6 +55,8 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
     val memberNameToAdd = remember { mutableStateOf("") }
     val groupOwnerId = remember { mutableStateOf("") }
     val groupMembers = remember { mutableStateListOf("member 1", "member 2", "member 3", "member 3") } // Example members
+    val currentUser = UserSession.getUser()?: return
+
 
     coroutineScope.launch {
         val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
@@ -139,7 +143,23 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { /* TODO: Save group settings */ },
+            onClick = {
+                coroutineScope.launch {
+                val response = RetrofitClient().groupApi.updateGroup(
+                    GroupApi.GroupUpdateRequestBody(
+                        id = groupId.value,
+                        name = groupName.value,
+                        userId = currentUser.id,
+                        description = groupDescription.value
+                    )
+                )
+                if (response.isSuccessful) {
+                    Intent(
+                        context,
+                        ExpenseActivity::class.java
+                    ).also { context.startActivity(it) }
+                } }
+            },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)
