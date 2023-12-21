@@ -23,10 +23,12 @@ import com.example.weshussy.ui.theme.WeShussyTheme
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import com.example.weshussy.api.data.User
 import com.example.weshussy.api.interfaces.GroupApi
 import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 import kotlinx.coroutines.coroutineScope
+import retrofit2.Retrofit
 
 
 class GroupSettingsActivity : ComponentActivity() {
@@ -54,9 +56,23 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
     val groupDescription = remember { mutableStateOf("") }
     val memberNameToAdd = remember { mutableStateOf("") }
     val groupOwnerId = remember { mutableStateOf("") }
-    val groupMembers = remember { mutableStateListOf("member 1", "member 2", "member 3", "member 3") } // Example members
-    val currentUser = UserSession.getUser()?: return
+    val groupMembers = remember { mutableStateListOf<User>() } // Example members
+    val currentUser = UserSession.getUser() ?: return
 
+    fun updateGroupMembers() {
+        coroutineScope.launch {
+            println("Awooga")
+            println(groupId)
+            val response = RetrofitClient().groupApi.getMembers(groupId = groupId.value)
+            if (response.isSuccessful) {
+                groupMembers.clear();
+                val members = response.body();
+                groupMembers.addAll(members?: emptyList());
+            }else {
+                println(response.errorBody());
+            }
+        }
+    }
 
     coroutineScope.launch {
         val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
@@ -69,10 +85,8 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
             groupName.value = body.name;
             groupDescription.value = body.description.toString();
             groupOwnerId.value = body.ownerId;
+            updateGroupMembers();
         }
-
-        println("WHAT IS THIS " + groupName)
-//        println(groupExpenses)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -112,12 +126,24 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
+
+
         OutlinedTextField(
             value = memberNameToAdd.value,
             onValueChange = { memberNameToAdd.value = it },
             label = { Text("Invite member") },
             trailingIcon = {
-                IconButton(onClick = { /* TODO: Add member logic */ }) {
+                IconButton(onClick = {
+                    coroutineScope.launch {
+                        RetrofitClient().groupApi.addMember(
+                            GroupApi.GroupMemberAddRequestBody(
+                                groupId = viewModel.getGroupId(),
+                                email = memberNameToAdd.value
+                            )
+                        )
+                        updateGroupMembers();
+                    }
+                }) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add member")
                 }
             },
@@ -131,10 +157,14 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
         LazyColumn {
             items(groupMembers) { member ->
                 MemberSettingsItem(
-                    name = member,
+                    name = member.firstName + " " + member.lastName,
                     onRemoveClick = {
-                        // TODO: Implement member removal logic
-                        groupMembers.remove(member)
+                        coroutineScope.launch {
+                            val response = RetrofitClient().groupApi.removeMember(GroupApi.GroupMemberDeleteRequestBody(groupId = groupId.value, userId = member.id))
+                            if (response.isSuccessful) {
+                                updateGroupMembers()
+                            }
+                        }
                     }
                 )
             }
@@ -145,20 +175,21 @@ fun GroupSettingsScreen(viewModel: GroupInfoViewModel) {
         Button(
             onClick = {
                 coroutineScope.launch {
-                val response = RetrofitClient().groupApi.updateGroup(
-                    GroupApi.GroupUpdateRequestBody(
-                        id = groupId.value,
-                        name = groupName.value,
-                        userId = currentUser.id,
-                        description = groupDescription.value
+                    val response = RetrofitClient().groupApi.updateGroup(
+                        GroupApi.GroupUpdateRequestBody(
+                            id = groupId.value,
+                            name = groupName.value,
+                            userId = currentUser.id,
+                            description = groupDescription.value
+                        )
                     )
-                )
-                if (response.isSuccessful) {
-                    Intent(
-                        context,
-                        ExpenseActivity::class.java
-                    ).also { context.startActivity(it) }
-                } }
+                    if (response.isSuccessful) {
+                        Intent(
+                            context,
+                            ExpenseActivity::class.java
+                        ).also { context.startActivity(it) }
+                    }
+                }
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)

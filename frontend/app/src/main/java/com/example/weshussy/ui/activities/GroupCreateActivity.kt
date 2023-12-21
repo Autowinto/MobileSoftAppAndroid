@@ -84,36 +84,6 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        OutlinedTextField(
-            value = memberNameToAdd.value,
-            onValueChange = { memberNameToAdd.value = it },
-            label = { Text("Invite member") },
-            trailingIcon = {
-                IconButton(onClick = { /* TODO: Add member logic */ }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add member")
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        LazyColumn {
-            items(groupMembers) { member ->
-                MemberCreateItem(
-                    name = member,
-                    onRemoveClick = {
-                        // TODO: Implement member removal logic
-                        groupMembers.remove(member)
-                    }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
         Button(
             onClick = { coroutineScope.launch {
                 println("Coroutine triggered")

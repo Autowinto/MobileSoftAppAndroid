@@ -53,7 +53,6 @@ fun GroupScreen(viewModel: GroupInfoViewModel) {
 
 //    val groups = remember { mutableStateListOf<Group>() }
     var group = remember { mutableStateOf("") }
-    var group1 = "";
 
     var groupId = remember { mutableStateOf("") }
     var groupName = remember { mutableStateOf("") }
@@ -76,12 +75,7 @@ fun GroupScreen(viewModel: GroupInfoViewModel) {
             groupExpenses.value = body.totalExpenses
             groupOwnerId.value = body.ownerId;
         }
-
-        println("WHAT IS THIS " + groupName)
-//        println(groupExpenses)
     }
-
-    println("POST_COROUTINE" + groupName)
 
     Column(
         modifier = Modifier

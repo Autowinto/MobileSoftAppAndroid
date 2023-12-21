@@ -46,21 +46,22 @@ interface GroupApi {
 
 
     // GROUP MEMBER MANAGEMENT
-    data class GroupMemberCreateRequestBody (
-        val name: String,
-        val userId: String
+    data class GroupMemberAddRequestBody (
+        val groupId: String,
+        val email: String
     )
 
     data class GroupMemberDeleteRequestBody (
-        val id: String
+        val groupId: String,
+        val userId: String
     )
 
     @POST("groups/members/")
-    suspend fun addGroupMember(@Body requestBody: GroupMemberCreateRequestBody): Response<String>
+    suspend fun addMember(@Body requestBody: GroupMemberAddRequestBody): Response<String>
 
-    @DELETE("groups/members/")
-    suspend fun removeMember(@Body requestBody: GroupMemberDeleteRequestBody): Response<String>
+    @POST("groups/members/delete")
+    suspend fun removeMember(@Body requestBody: GroupMemberDeleteRequestBody): Response<Boolean>
 
-    @GET("groups/members/")
-    suspend fun getMembers(@Query("groupId") groupId: String): Response<List<User>>
+    @GET("groups/{groupId}/members/")
+    suspend fun getMembers(@Path("groupId") groupId: String): Response<List<User>>
 }
