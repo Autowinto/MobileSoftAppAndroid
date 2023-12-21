@@ -10,9 +10,16 @@ import retrofit2.Response
 
 interface ExpenseApi {
 
+    data class ExpenseCreateRequestBody(
+        val userId: String,
+        val groupId: String,
+        val amount: String,
+        val name: String
+    )
+
     // Create a new expense
     @POST("/expenses/")
-    suspend fun createExpense(@Body expense: Expense): Response<Expense>
+    suspend fun createExpense(@Body expense: ExpenseCreateRequestBody): Response<Object>
 
     // Edit an existing expense
     @PUT("/expenses/")

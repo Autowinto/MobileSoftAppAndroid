@@ -117,7 +117,12 @@ fun GroupCreateScreen(viewModel: GroupCreateViewModel) {
         Button(
             onClick = { coroutineScope.launch {
                 println("Coroutine triggered")
-                val response = RetrofitClient().groupApi.createGroup(GroupCreateRequestBody(name = groupName.value, userId = currentUser.id, description = groupDescription.value))
+                val response = RetrofitClient().groupApi.createGroup(
+                    GroupCreateRequestBody(
+                        name = groupName.value,
+                        userId = currentUser.id,
+                        description = groupDescription.value
+                    ))
                 if (response.isSuccessful) {
                     Intent(
                         context,

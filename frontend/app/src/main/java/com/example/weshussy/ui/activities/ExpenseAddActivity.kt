@@ -13,12 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.weshussy.api.RetrofitClient
+import com.example.weshussy.api.interfaces.ExpenseApi
+import com.example.weshussy.ui.UserSession
 import com.example.weshussy.ui.theme.WeShussyTheme
+import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.mutableStateOf
+
 
 
 class ExpenseAddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             WeShussyTheme {
                 ExpenseAddScreen()
@@ -30,15 +38,18 @@ class ExpenseAddActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpenseAddScreen() {
+    val user = UserSession.getUser() ?: return
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    var expenseAmount by remember { mutableStateOf("") }
-    var expenseDescription by remember { mutableStateOf("") }
-    var selectedPayer by remember { mutableStateOf("") }
+    val expenseAmount by remember { mutableStateOf("") }
+    val expenseDescription by remember { mutableStateOf("") }
+    val selectedPayer by remember { mutableStateOf("") }
     val groupMembers = listOf("Group Member 1", "Group Member 2", "Group Member 3", "Group Member 4")
     val selectedMembers = remember { mutableStateMapOf<String, Boolean>() }
     groupMembers.forEach { member ->
         selectedMembers.putIfAbsent(member, true)
     }
+    val group = GroupInfoViewModel().getGroupId();
 
     Scaffold(
         topBar = {
@@ -81,12 +92,30 @@ fun ExpenseAddScreen() {
             GroupMembersSelection(groupMembers, selectedMembers)
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = {
-                    val intent = Intent(context, ExpenseActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                onClick = { coroutineScope.launch {
+                    println("Coroutine triggered")
+                    val response = RetrofitClient().expenseApi.createExpense(
+                        ExpenseApi.ExpenseCreateRequestBody(
+                            userId = selectedPayer,
+                            groupId = group,
+                            amount = expenseAmount,
+                            name = expenseDescription,
+                        )
+                    )
+                    if (response.isSuccessful) {
+                        Intent(
+                            context,
+                            ExpenseActivity::class.java
+                        ).also { context.startActivity(it) }
                     }
-                    context.startActivity(intent)
-                },
+                } },
+//                onClick = {
+//
+//                    val intent = Intent(context, ExpenseActivity::class.java).apply {
+//                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                    }
+//                    context.startActivity(intent)
+//                },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text("Create")
@@ -119,7 +148,7 @@ fun DropdownMenuPayer(
                     DropdownMenuItem(
                         onClick = { onPayerSelected(payer)
                             expanded = false },
-                        text = { Text("Item text here") }
+                        text = { Text(payer) }
                     )
             }
         }
