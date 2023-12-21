@@ -10,14 +10,14 @@ import { editGroup } from "./edit-group";
 const router = express.Router();
 
 //group operations
-router.post('/', createGroup);
-router.put('/', editGroup)
-router.delete('/', deleteGroup);
-router.get('/:id', getGroup);
+router.post("/", createGroup);
+router.put("/", editGroup);
+router.delete("/", deleteGroup);
+router.get("/:id", getGroup);
 
 //members operations
-router.post('/members', addMember);
-router.delete('/members', removeMember);
-router.get('/:id/members', getMembers);
+router.post("/members", addMember);
+router.post("/members/delete", removeMember);
+router.get("/:id/members", getMembers);
 
 export default router;
