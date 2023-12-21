@@ -41,11 +41,14 @@ fun ExpenseAddScreen() {
     val user = UserSession.getUser() ?: return
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val expenseAmount by remember { mutableStateOf("") }
-    val expenseDescription by remember { mutableStateOf("") }
-    val selectedPayer by remember { mutableStateOf("") }
+    val expenseAmount = remember { mutableStateOf("") }
+    val expenseDescription = remember { mutableStateOf("") }
+    val selectedPayer =  remember { mutableStateOf("") }
     val groupMembers = listOf("Group Member 1", "Group Member 2", "Group Member 3", "Group Member 4")
     val selectedMembers = remember { mutableStateMapOf<String, Boolean>() }
+
+
+
     groupMembers.forEach { member ->
         selectedMembers.putIfAbsent(member, true)
     }
@@ -69,24 +72,24 @@ fun ExpenseAddScreen() {
             .padding(innerPadding)
             .padding(16.dp)) {
             OutlinedTextField(
-                value = expenseAmount,
-                onValueChange = { expenseAmount = it },
+                value = expenseAmount.value,
+                onValueChange = { expenseAmount.value = it },
                 label = { Text("Expense") },
                 leadingIcon = { Text("$") },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
-                value = expenseDescription,
-                onValueChange = { expenseDescription = it },
+                value = expenseDescription.value,
+                onValueChange = { expenseDescription.value = it },
                 label = { Text("Expense description") },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             DropdownMenuPayer(
                 payerList = groupMembers,
-                selectedPayer = selectedPayer,
-                onPayerSelected = { selectedPayer = it }
+                selectedPayer = selectedPayer.value,
+                onPayerSelected = { selectedPayer.value = it }
             )
             Spacer(modifier = Modifier.height(8.dp))
             GroupMembersSelection(groupMembers, selectedMembers)
@@ -96,10 +99,10 @@ fun ExpenseAddScreen() {
                     println("Coroutine triggered")
                     val response = RetrofitClient().expenseApi.createExpense(
                         ExpenseApi.ExpenseCreateRequestBody(
-                            userId = selectedPayer,
+                            userId = selectedPayer.value,
                             groupId = group,
-                            amount = expenseAmount,
-                            name = expenseDescription,
+                            amount = expenseAmount.value,
+                            name = expenseDescription.value,
                         )
                     )
                     if (response.isSuccessful) {
