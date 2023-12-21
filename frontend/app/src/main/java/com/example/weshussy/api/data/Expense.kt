@@ -6,6 +6,9 @@ data class Expense(
     @JsonProperty("id")
     val id: String,
 
+    @JsonProperty("name")
+    val name: String,
+    
     @JsonProperty("userId")
     val userId: String,
 
