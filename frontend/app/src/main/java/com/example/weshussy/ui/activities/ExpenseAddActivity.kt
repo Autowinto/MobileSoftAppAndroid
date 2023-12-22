@@ -26,10 +26,12 @@ import androidx.compose.runtime.mutableStateOf
 class ExpenseAddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val groupId = intent.getStringExtra("groupId")
+        println("GROUP ID")
+        println(groupId)
         setContent {
             WeShussyTheme {
-                ExpenseAddScreen()
+                ExpenseAddScreen(groupId = groupId.toString())
             }
         }
     }
@@ -37,7 +39,7 @@ class ExpenseAddActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpenseAddScreen() {
+fun ExpenseAddScreen(groupId: String) {
     val user = UserSession.getUser() ?: return
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -52,7 +54,7 @@ fun ExpenseAddScreen() {
     groupMembers.forEach { member ->
         selectedMembers.putIfAbsent(member, true)
     }
-    val group = GroupInfoViewModel().getGroupId();
+
 
     Scaffold(
         topBar = {
@@ -95,16 +97,19 @@ fun ExpenseAddScreen() {
             GroupMembersSelection(groupMembers, selectedMembers)
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { coroutineScope.launch {
-                    println("Coroutine triggered")
+                onClick = {
+                    println("Coroutine aooooga")
+                    coroutineScope.launch {
                     val response = RetrofitClient().expenseApi.createExpense(
                         ExpenseApi.ExpenseCreateRequestBody(
-                            userId = selectedPayer.value,
-                            groupId = group,
+                            userId = user.id,
+                            groupId = groupId,
                             amount = expenseAmount.value,
                             name = expenseDescription.value,
                         )
                     )
+                    println("AAOOOOOOOGA")
+                    println(response)
                     if (response.isSuccessful) {
                         Intent(
                             context,
@@ -112,13 +117,6 @@ fun ExpenseAddScreen() {
                         ).also { context.startActivity(it) }
                     }
                 } },
-//                onClick = {
-//
-//                    val intent = Intent(context, ExpenseActivity::class.java).apply {
-//                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                    }
-//                    context.startActivity(intent)
-//                },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text("Create")

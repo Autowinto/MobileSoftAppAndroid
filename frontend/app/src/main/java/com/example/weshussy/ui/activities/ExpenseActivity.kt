@@ -148,7 +148,7 @@ fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
 
         // Display content based on selected tab
         when (selectedTabIndex) {
-            0 -> OverviewContent()
+            0 -> OverviewContent(groupId = groupId.value)
             1 -> ExpensesContent()
             2 -> PayContent()
         }
@@ -156,7 +156,9 @@ fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
 }
 
 @Composable
-fun OverviewContent() {
+fun OverviewContent(groupId: String) {
+    println("OVERVIEW")
+    println(groupId)
     val context = LocalContext.current //
     Box(modifier = Modifier.fillMaxSize()) {
         // The LazyColumn for displaying a list of members or items
@@ -171,7 +173,11 @@ fun OverviewContent() {
 
         // The FAB is positioned inside the Box, at the bottom end
         FloatingActionButton(
-            onClick = { context.startActivity(Intent(context, ExpenseAddActivity::class.java)) },
+            onClick = {
+                val intent = Intent(context, ExpenseAddActivity::class.java)
+                intent.putExtra("groupId", groupId)
+                context.startActivity(Intent(context, ExpenseAddActivity::class.java))
+                      },
             // Align the FAB at the bottom end of the Box
             modifier = Modifier
                 .align(Alignment.BottomEnd)

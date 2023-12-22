@@ -18,26 +18,26 @@ interface ExpenseApi {
     )
 
     // Create a new expense
-    @POST("/expenses/")
-    suspend fun createExpense(@Body expense: ExpenseCreateRequestBody): Response<Object>
+    @POST("expenses/")
+    suspend fun createExpense(@Body expense: ExpenseCreateRequestBody): Response<Any>
 
     // Edit an existing expense
-    @PUT("/expenses/")
+    @PUT("expenses/")
     suspend fun editExpense(@Body expense: Expense): Response<Expense>
 
     // Get details of an expense
-    @GET("/expenses/")
+    @GET("expenses/")
     suspend fun showExpense(): Response<Expense>
 
     // Delete an expense
-    @DELETE("/expenses/")
+    @DELETE("expenses/")
     suspend fun deleteExpense(): Response<Unit>
 
     // Get expense history
-    @GET("/expenses/history")
+    @GET("expenses/history")
     suspend fun getExpenseHistory(): Response<List<Expense>>
 
     // Get all expenses
-    @GET("/expenses/expenses")
+    @GET("expenses/expenses")
     suspend fun getAllExpenses(): Response<List<Expense>>
 }
