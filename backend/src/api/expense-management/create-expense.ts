@@ -28,7 +28,9 @@ export async function createExpense(req: Request, res: Response) {
       throw "Group not found";
     }
 
-    const updatedTotal = group.dataValues.totalExpense + amount;
+    const updatedTotal =
+      parseFloat(group.dataValues.totalExpense) + parseFloat(amount);
+    console.log(updatedTotal);
     await Group.update(
       { totalExpense: updatedTotal },
       { where: { id: groupId } }
