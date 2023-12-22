@@ -16,5 +16,11 @@ data class Expense(
     val groupId: String,
 
     @JsonProperty("amount")
-    val amount: Int
+    val amount: Int,
+
+    @JsonProperty("createdAt")
+    val createdAt: String,
+
+    @JsonProperty("updatedAt")
+    val updatedAt: String
 )

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -28,6 +29,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,10 +39,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.weshussy.api.RetrofitClient
+import com.example.weshussy.api.data.Expense
+import com.example.weshussy.api.data.User
 import com.example.weshussy.ui.components.BalanceCard
 import com.example.weshussy.ui.theme.WeShussyTheme
 import com.example.weshussy.ui.viewmodels.GroupInfoViewModel
 import kotlinx.coroutines.launch
+import kotlin.math.exp
 
 class ExpenseActivity : ComponentActivity() {
     private val viewModel = GroupInfoViewModel();
@@ -67,9 +72,23 @@ fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
     var groupName = remember { mutableStateOf("") }
     var groupDescription = remember { mutableStateOf("") }
     var groupExpenses = remember { mutableStateOf(0) }
+    val expenseList = remember { mutableStateListOf<Expense>() } // Example members
     var groupOwnerId = remember { mutableStateOf("") }
 
-
+    fun updateExpenses() {
+        coroutineScope.launch {
+            println("Awooga")
+            println(groupId)
+            val response = RetrofitClient().expenseApi.getAllExpenses()
+            if (response.isSuccessful) {
+                expenseList.clear()
+                val expenses = response.body();
+                expenseList.addAll(expenses?: emptyList())
+            }else {
+                println(response.errorBody());
+            }
+        }
+    }
     coroutineScope.launch {
         val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
 //        val response = viewModel.;
@@ -82,10 +101,8 @@ fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
             groupDescription.value = body.description.toString();
             groupExpenses.value = body.totalExpenses
             groupOwnerId.value = body.ownerId;
+            updateExpenses()
         }
-
-        println("WHAT IS THIS " + groupName)
-//        println(groupExpenses)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -149,7 +166,7 @@ fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
         // Display content based on selected tab
         when (selectedTabIndex) {
             0 -> OverviewContent(groupId = groupId.value)
-            1 -> ExpensesContent()
+            1 -> ExpensesContent(expenseList)
             2 -> PayContent()
         }
     }
@@ -176,7 +193,7 @@ fun OverviewContent(groupId: String) {
             onClick = {
                 val intent = Intent(context, ExpenseAddActivity::class.java)
                 intent.putExtra("groupId", groupId)
-                context.startActivity(Intent(context, ExpenseAddActivity::class.java))
+                context.startActivity(intent)
                       },
             // Align the FAB at the bottom end of the Box
             modifier = Modifier
@@ -194,15 +211,12 @@ fun OverviewContent(groupId: String) {
 
 
 @Composable
-fun ExpensesContent() {
-    // Display a list of expenses
-    // TODO: Replace with actual data
-    val context = LocalContext.current // Obtain the context
+fun ExpensesContent(expenses: List<Expense>) {
+    val context = LocalContext.current
     LazyColumn {
-        items(10) { index ->
+        items(expenses) { expense ->
             ExpenseItem(
-
-                name = "Expense Name/Description $index", // TODO: Replace with actual expense name/description
+                name = expense.name, // TODO: Replace with actual expense name/description
                 onDetailsClick = {  context.startActivity(Intent(context, ExpenseDetailsActivity::class.java)) }
             )
         }

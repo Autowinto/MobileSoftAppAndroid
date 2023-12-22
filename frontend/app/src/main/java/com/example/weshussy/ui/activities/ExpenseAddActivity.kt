@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 class ExpenseAddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val groupId = intent.getStringExtra("groupId")
         println("GROUP ID")
         println(groupId)
