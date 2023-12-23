@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -50,16 +51,12 @@ class GroupInfoActivity : ComponentActivity() {
 fun GroupScreen(viewModel: GroupInfoViewModel) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current;
-
-//    val groups = remember { mutableStateListOf<Group>() }
     var group = remember { mutableStateOf("") }
-
     var groupId = remember { mutableStateOf("") }
     var groupName = remember { mutableStateOf("") }
     var groupDescription = remember { mutableStateOf("") }
     var groupExpenses = remember { mutableStateOf(0) }
     var groupOwnerId = remember { mutableStateOf("") }
-
 
     coroutineScope.launch {
         val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())

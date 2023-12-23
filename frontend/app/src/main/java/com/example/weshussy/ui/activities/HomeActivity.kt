@@ -62,21 +62,22 @@ class HomeActivity : ComponentActivity() {
 
 @Composable
 fun HomeView(viewModel: HomeViewModel) {
-    var showDialog by remember { mutableStateOf(false) }
-    var showSnackbar by remember { mutableStateOf(false) }
+    var showDialog = remember { mutableStateOf(false) }
+    var showSnackbar = remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val groups  = remember { mutableStateListOf<Group>() }
     val coroutineScope = rememberCoroutineScope()
     val currentUser = UserSession.getUser()?: return
 
-
-    coroutineScope.launch {
+    LaunchedEffect("init") {
         val groupsData = viewModel.getGroupsForUser(currentUser.id)
         groups.addAll(groupsData)
         println("GROUPS HERE")
         println(groupsData)
+
     }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -117,7 +118,7 @@ fun HomeView(viewModel: HomeViewModel) {
                                 context.startActivity(intent)
                             },
                             onNotificationClick = {
-                                showDialog = true
+                                showDialog.value = true
                             }
                         )
                     }
@@ -136,14 +137,16 @@ fun HomeView(viewModel: HomeViewModel) {
 
 
             }
-            if (showDialog) {
-                NotificationDialog(
-                    onDismissRequest = { showDialog = false },
-                    onConfirmSend = {
-                        showDialog = false
-                        showSnackbar = true
-                    }
-                )
+            when {
+                showDialog.value -> {
+                    NotificationDialog(
+                        onDismissRequest = { showDialog.value = false },
+                        onConfirmSend = {
+                            showDialog.value = false
+                            showSnackbar.value = true
+                        }
+                    )
+                }
             }
 
             SnackbarHost(
@@ -153,16 +156,19 @@ fun HomeView(viewModel: HomeViewModel) {
         }
     }
 
-    if (showSnackbar) {
-        LaunchedEffect(key1 = showSnackbar) {
-            snackbarHostState.showSnackbar(
-                message = "Notification sent!",
-                actionLabel = "OK",
-                duration = SnackbarDuration.Long
-            )
-            showSnackbar = false
+when {
+    showSnackbar.value -> {
+        coroutineScope.launch {
+        snackbarHostState.showSnackbar(
+            message = "Notification sent!",
+            actionLabel = "OK",
+            duration = SnackbarDuration.Long
+        )
+        showSnackbar.value = false
         }
     }
+}
+
 }
 
 @Composable
@@ -181,9 +187,4 @@ fun NotificationDialog(onDismissRequest: () -> Unit, onConfirmSend: () -> Unit) 
             }
         }
     )
-}
-
-@Composable
-fun GroupsList(groups: List<Group>) {
-
 }

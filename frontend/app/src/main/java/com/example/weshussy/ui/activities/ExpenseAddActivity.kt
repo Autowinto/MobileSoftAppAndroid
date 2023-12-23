@@ -50,8 +50,6 @@ fun ExpenseAddScreen(groupId: String) {
     val groupMembers = listOf("Group Member 1", "Group Member 2", "Group Member 3", "Group Member 4")
     val selectedMembers = remember { mutableStateMapOf<String, Boolean>() }
 
-
-
     groupMembers.forEach { member ->
         selectedMembers.putIfAbsent(member, true)
     }
@@ -62,9 +60,7 @@ fun ExpenseAddScreen(groupId: String) {
             TopNavBar(
                 title = "Add expense",
                 onBackClick = {
-                    val intent = Intent(context, ExpenseActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    }
+                    val intent = Intent(context, GroupInfoActivity::class.java)
                     context.startActivity(intent)
                 },
                 showEdit = false
@@ -109,12 +105,10 @@ fun ExpenseAddScreen(groupId: String) {
                             name = expenseDescription.value,
                         )
                     )
-                    println("AAOOOOOOOGA")
-                    println(response)
                     if (response.isSuccessful) {
                         Intent(
                             context,
-                            ExpenseActivity::class.java
+                            GroupInfoActivity::class.java
                         ).also { context.startActivity(it) }
                     }
                 } },

@@ -1,6 +1,7 @@
 package com.example.weshussy.ui.activities
 
 import TopNavBar
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -64,6 +65,7 @@ class ExpenseActivity : ComponentActivity() {
 }
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
     val coroutineScope = rememberCoroutineScope()
@@ -89,10 +91,9 @@ fun GroupInfoScreen(viewModel: GroupInfoViewModel) {
             }
         }
     }
+
     coroutineScope.launch {
         val response = RetrofitClient().groupApi.getGroupById(viewModel.getGroupId())
-//        val response = viewModel.;
-//        response.add
         if (response.isSuccessful) {
             val body = response.body()
             if (body == null) return@launch
